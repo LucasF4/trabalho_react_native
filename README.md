@@ -1,6 +1,7 @@
 # Comando iniciais após o clone
 
 > npm install
+> 
 > npm start ou npm expo start -c
 
 
