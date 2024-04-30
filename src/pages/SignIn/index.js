@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
@@ -12,14 +12,24 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { ScrollView } from "react-native";
+import { AuthContext } from "../../contexts/auth";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userLogin, setUserLogin] = useState(null);
+  const { handleLogin } = useContext(AuthContext);
+
+  useEffect(() => {
+    setUserLogin({
+      email: email,
+      password: password,
+    });
+  }, [email, password]);
   const navigation = useNavigation();
-  function handleLogin() {
-    console.log(email, password);
-  }
+  const login = () => {
+    handleLogin(userLogin);
+  };
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <ScrollView
@@ -51,7 +61,7 @@ export default function SignIn() {
             secureTextEntry={true}
           />
 
-          <TouchableOpacity style={styles.buttonSignIn} onPress={handleLogin}>
+          <TouchableOpacity style={styles.buttonSignIn} onPress={login}>
             <Text style={styles.buttonText}>Acessar</Text>
           </TouchableOpacity>
           <View style={styles.cntBtnCadastro}>

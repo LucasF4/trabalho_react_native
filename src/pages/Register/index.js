@@ -1,22 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styles } from "../SignIn/Style";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
 export default function Register() {
+  const baseApi = "http://192.168.100.180:3000";
   const [nameCadastro, setNameCadastro] = useState("");
   const [emailCadastro, setEmailCadastro] = useState("");
   const [passwordCadastro, setPasswordCadastro] = useState("");
-
+  const [confirmPasswordCadastro, setConfirmPasswordCadastro] = useState("");
+  const [userCadastro, setUserCadastro] = useState(null);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    setUserCadastro({
+      name: nameCadastro,
+      email: emailCadastro,
+      password: passwordCadastro,
+    });
+  }, [nameCadastro, emailCadastro, passwordCadastro]);
+  const handleRegister = async () => {
+    console.log("Meu user", userCadastro);
+    console.log("entrei cadastro");
+    try {
+      const response = await fetch(`${baseApi}/user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userCadastro),
+      });
+
+      if (response.ok) {
+        console.log("Cadastro realizado com sucesso!");
+        const data = await response.json();
+        console.log(data);
+        navigation.navigate("SignIn");
+      }
+    } catch (error) {
+      console.error("Erro ao realizar cadastro:", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -52,10 +80,14 @@ export default function Register() {
           <TextInput
             style={styles.input}
             placeholder="Digite novamente sua senha..."
+            onChange={(text) => setConfirmPasswordCadastro(text)}
             secureTextEntry={true}
           />
 
-          <TouchableOpacity style={styles.buttonSignIn}>
+          <TouchableOpacity
+            style={styles.buttonSignIn}
+            onPress={handleRegister}
+          >
             <Text style={styles.buttonText}>Cadastrar</Text>
           </TouchableOpacity>
           <View style={styles.cntBtnCadastro}>

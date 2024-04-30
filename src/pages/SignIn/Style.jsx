@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   title: {
     width: "100%",
     fontSize: 25,
-    fontFamily: "Lato_700Bold",
+    fontFamily: "Poppins_700Bold",
     color: "white",
     marginBottom: 20,
     backgroundColor: "#36B44C",
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     color: "black",
     alignSelf: "flex-start",
     fontSize: 16,
-    fontFamily: "Lato_700Bold",
+    fontFamily: "Poppins_700Bold",
   },
   input: {
     borderBottomWidth: 1,
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     color: "black",
-    fontFamily: "Lato_400Regular",
+    fontFamily: "Poppins_400Regular",
     fontSize: 16,
   },
 
@@ -87,7 +87,7 @@ export const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 18,
-    fontFamily: "Lato_700Bold",
+    fontFamily: "Poppins_700Bold",
   },
   cntBtnCadastro: {
     width: "100%",
@@ -97,6 +97,6 @@ export const styles = StyleSheet.create({
     gap: 10,
   },
   textBtnCadastro: {
-    fontFamily: "Lato_700Bold",
+    fontFamily: "Poppins_700Bold",
   },
 });
