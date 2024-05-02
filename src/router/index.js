@@ -16,7 +16,7 @@ function HomeTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Home"
+        name="HomeTab"
         component={Home}
         options={{
           headerShown: false,

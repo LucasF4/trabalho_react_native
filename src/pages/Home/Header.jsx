@@ -3,7 +3,8 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import MenuHeader from "./MenuHeader";
 
-export default function Header() {
+export default function Header(props) {
+  const { username } = props;
   return (
     <View style={styles.header}>
       <View style={styles.containerHeaderUser}>
@@ -16,7 +17,7 @@ export default function Header() {
           </View>
           <View style={styles.containerTextUser}>
             <Text style={styles.subtitleUser}>Olá,</Text>
-            <Text style={styles.textUser}>Usuário</Text>
+            <Text style={styles.textUser}>{username}</Text>
           </View>
         </View>
       </View>

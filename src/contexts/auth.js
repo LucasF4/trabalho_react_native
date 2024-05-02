@@ -23,10 +23,10 @@ function AuthProvider({ children }) {
         const data = await response.json();
         console.log(data);
         setToken(data["access_token"]);
-
-        // Do something with the response data
-        navigation.navigate("Home");
+        navigation.navigate("Home"); // Mova esta linha para aqui
+        return data;
       }
+      navigation.navigate("Home");
     } catch (error) {
       console.error("Erro ao realizar cadastro:", error);
     }
@@ -34,15 +34,15 @@ function AuthProvider({ children }) {
   useEffect(() => {
     console.log("Token", token);
   }, [token]);
-  const checkToken = () => {
-    if (!token) {
-      console.log("Token não encontrado");
-      // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
-    } else {
-      console.log("Token encontrado:", token);
-      // Aqui você pode fazer algo com o token, como verificar se ele ainda é válido
-    }
-  };
+  // const checkToken = () => {
+  //   if (!token) {
+  //     console.log("Token não encontrado");
+  //     // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+  //   } else {
+  //     console.log("Token encontrado:", token);
+  //     // Aqui você pode fazer algo com o token, como verificar se ele ainda é válido
+  //   }
+  // };
 
   const handleInfo = async () => {
     try {
@@ -57,7 +57,7 @@ function AuthProvider({ children }) {
       if (response.ok) {
         console.log("Consulta info realizada:");
         const data = await response.json();
-        console.log(data);
+        return data;
         // Do something with the response data
       }
     } catch (error) {

@@ -2,7 +2,8 @@ import { Poppins_400Regular } from "@expo-google-fonts/poppins";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-export default function Overview() {
+export default function Overview(props) {
+  const { valorAt } = props;
   return (
     <View style={styles.container}>
       <View>
@@ -11,7 +12,7 @@ export default function Overview() {
       <View style={styles.saldoInit}>
         <View>
           <Text style={styles.textWallet}>Carteira</Text>
-          <Text style={styles.textSaldo}>R$ 20,000</Text>
+          <Text style={styles.textSaldo}>R$ {valorAt}</Text>
         </View>
         <Icon name="account-balance-wallet" size={50} color="white" />
       </View>
@@ -38,7 +39,7 @@ export default function Overview() {
                 color: "#3C5839",
               }}
             >
-              R$ 20,000
+              R$ {valorAt}
             </Text>
           </View>
         </View>

@@ -9,6 +9,8 @@ import { AuthContext } from "../../contexts/auth";
 export default function Home() {
   const [showAddButton, setShowAddButton] = useState(true);
   const [userInfo, setUserInfo] = useState({});
+  const [valorAt, setValorAt] = useState("0,00");
+  const [username, setUsername] = useState("Usuário");
   const { handleInfo } = useContext(AuthContext);
   const handleScroll = (event) => {
     const { y } = event.nativeEvent.contentOffset;
@@ -19,15 +21,28 @@ export default function Home() {
     }
   };
 
-  const getUserInfo = async () => {
-    const data = await handleInfo();
-    setUserInfo(data);
-  };
-  getUserInfo();
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const data = await handleInfo();
+      setUserInfo(data);
+    };
+    getUserInfo();
+  }, [handleInfo]);
 
   useEffect(() => {
     console.log(userInfo);
   }, [userInfo]);
+
+  useEffect(() => {
+    if (userInfo) {
+      setUsername(userInfo.name);
+      setValorAt(userInfo.valorAt);
+    }
+  }, [userInfo, setValorAt, setUsername]);
+
+  useEffect(() => {
+    console.log("Username", username);
+  }, [username]);
   return (
     <>
       <ScrollView
@@ -35,8 +50,8 @@ export default function Home() {
         onScroll={handleScroll}
         scrollEventThrottle={16}
       >
-        <Header />
-        <Overview />
+        <Header username={username} />
+        <Overview valorAt={valorAt} />
         <Releases />
       </ScrollView>
       {showAddButton && (
