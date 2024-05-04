@@ -1,8 +1,15 @@
-import { Poppins_400Regular } from "@expo-google-fonts/poppins";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import * as Animatable from "react-native-animatable";
+
 export default function Overview(props) {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
   const { valorAt } = props;
   return (
     <View style={styles.container}>
@@ -12,7 +19,20 @@ export default function Overview(props) {
       <View style={styles.saldoInit}>
         <View>
           <Text style={styles.textWallet}>Carteira</Text>
-          <Text style={styles.textSaldo}>R$ {valorAt}</Text>
+          {loading ? (
+            <Animatable.Text
+              style={{
+                backgroundColor: "#7dff86",
+                height: 25,
+                width: 100,
+                borderRadius: 2,
+              }}
+              animation="pulse"
+              iterationCount="infinite"
+            ></Animatable.Text>
+          ) : (
+            <Text style={styles.textSaldo}>R$ {valorAt}</Text>
+          )}
         </View>
         <Icon name="account-balance-wallet" size={50} color="white" />
       </View>
@@ -24,23 +44,39 @@ export default function Overview(props) {
           <View>
             <Text
               style={{
-                fontFamily: "Poppins_400Regular",
+                fontFamily: "Inter_400Regular",
                 color: "#999999",
-                marginBottom: -5,
+
                 fontSize: 12,
               }}
             >
               receitas
             </Text>
-            <Text
-              style={{
-                fontFamily: "Poppins_600SemiBold",
-                fontSize: 18,
-                color: "#3C5839",
-              }}
-            >
-              R$ {valorAt}
-            </Text>
+            {loading ? (
+              <Animatable.Text
+                style={{
+                  backgroundColor: "#f0f0f0",
+                  height: 20,
+                  fontFamily: "Inter_600SemiBold",
+                  fontSize: 18,
+                  width: 100,
+                  borderRadius: 2,
+                  color: "#3C5839",
+                }}
+                animation="pulse"
+                iterationCount="infinite"
+              ></Animatable.Text>
+            ) : (
+              <Text
+                style={{
+                  fontFamily: "Inter_600SemiBold",
+                  fontSize: 18,
+                  color: "#3C5839",
+                }}
+              >
+                R$ {valorAt}
+              </Text>
+            )}
           </View>
         </View>
         <View style={styles.containerAddGasto}>
@@ -50,7 +86,7 @@ export default function Overview(props) {
           <View>
             <Text
               style={{
-                fontFamily: "Poppins_400Regular",
+                fontFamily: "Inter_400Regular",
                 color: "#999999",
                 marginBottom: -5,
                 fontSize: 12,
@@ -60,7 +96,7 @@ export default function Overview(props) {
             </Text>
             <Text
               style={{
-                fontFamily: "Poppins_600SemiBold",
+                fontFamily: "Inter_600SemiBold",
                 fontSize: 18,
                 color: "#610808",
               }}
@@ -88,12 +124,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   textWallet: {
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Inter_400Regular",
     fontSize: 15,
     color: "#edebeb",
   },
   textSaldo: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Inter_600SemiBold",
     fontSize: 25,
     color: "white",
   },
@@ -102,7 +138,7 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   titleOverview: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Inter_600SemiBold",
     fontSize: 18,
     color: "black",
     paddingHorizontal: 10,

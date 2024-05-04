@@ -36,7 +36,8 @@ export default function Home() {
   useEffect(() => {
     if (userInfo) {
       setUsername(userInfo.name);
-      setValorAt(userInfo.valorAt);
+      const valorAt = (userInfo.valorAt / 100).toFixed(2).replace(".", ",");
+      setValorAt(valorAt);
     }
   }, [userInfo, setValorAt, setUsername]);
 
@@ -44,22 +45,15 @@ export default function Home() {
     console.log("Username", username);
   }, [username]);
   return (
-    <>
-      <ScrollView
-        style={styles.container}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-      >
-        <Header username={username} />
-        <Overview valorAt={valorAt} />
-        <Releases />
-      </ScrollView>
-      {showAddButton && (
-        <View style={styles.containerAdd}>
-          <Icon name="add" size={40} color="white" />
-        </View>
-      )}
-    </>
+    <ScrollView
+      style={styles.container}
+      onScroll={handleScroll}
+      scrollEventThrottle={16}
+    >
+      <Header username={username} />
+      <Overview valorAt={valorAt} />
+      <Releases />
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({

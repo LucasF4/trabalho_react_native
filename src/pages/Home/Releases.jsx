@@ -105,23 +105,23 @@ const styles = StyleSheet.create({
   },
   textReleases: {
     color: "black",
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Inter_600SemiBold",
     fontSize: 15,
   },
   textTagRelease: {
     color: "#999999",
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Inter_400Regular",
     fontSize: 11,
     marginBottom: -5,
   },
   textNameRelease: {
     color: "black",
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Inter_600SemiBold",
     fontSize: 12,
   },
   textValueRelease: {
     color: "#610808",
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Inter_600SemiBold",
     fontSize: 14,
   },
 

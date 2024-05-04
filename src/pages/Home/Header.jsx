@@ -65,12 +65,12 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   textUser: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Inter_600SemiBold",
     color: "black",
     fontSize: 16,
   },
   subtitleUser: {
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Inter_400Regular",
     color: "black",
 
     fontSize: 13,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     height: "100%",
     textAlign: "center",
     fontSize: 12,
-    fontFamily: "Poppins_700Bold",
+    fontFamily: "Inter_700Bold",
     color: "white",
   },
 });

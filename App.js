@@ -4,19 +4,19 @@ import { NavigationContainer } from "@react-navigation/native";
 import Routes from "./src/router";
 import {
   useFonts,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
 import AuthProvider from "./src/contexts/auth";
 
 export default function App() {
   const [fontLoaded] = useFonts({
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_600SemiBold,
+    Inter_700Bold,
   });
   if (!fontLoaded) {
     return null;
