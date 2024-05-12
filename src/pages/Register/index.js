@@ -5,9 +5,11 @@ import * as Animatable from "react-native-animatable";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import getEnvVars from "../../../environment";
 
 export default function Register() {
-  const baseApi = "https://1e46-138-0-234-75.ngrok-free.app";
+  const { BASE_API } = getEnvVars();
+  const baseApi = BASE_API;
   const [nameCadastro, setNameCadastro] = useState("");
   const [emailCadastro, setEmailCadastro] = useState("");
   const [passwordCadastro, setPasswordCadastro] = useState("");
