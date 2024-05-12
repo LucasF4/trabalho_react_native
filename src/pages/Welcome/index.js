@@ -1,12 +1,25 @@
-import { HandCoins } from "lucide";
-import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../contexts/auth";
 
 export default function Welcome() {
   const navigation = useNavigation();
+  const { token } = useContext(AuthContext);
+
+  const Entrar = () => {
+    if (token && token.length > 0) {
+      navigation.navigate("Home", {
+        screen: "HomeTab",
+        params: { token: token },
+      });
+    } else {
+      navigation.navigate("SignIn");
+    }
+  };
   return (
     <View style={styles.container}>
       <Animatable.View animation="flipInY" style={styles.containerLogo}>
@@ -21,12 +34,7 @@ export default function Welcome() {
           Organize seus ganhos e gastos de qualquer lugar!
         </Text>
         <Text style={styles.subtitle}>Faça o login para começar.</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("SignIn");
-          }}
-        >
+        <TouchableOpacity style={styles.button} onPress={Entrar}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
       </Animatable.View>

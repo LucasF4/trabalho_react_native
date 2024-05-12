@@ -7,7 +7,7 @@ import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Register() {
-  const baseApi = "http://192.168.100.180:3000";
+  const baseApi = "https://1e46-138-0-234-75.ngrok-free.app";
   const [nameCadastro, setNameCadastro] = useState("");
   const [emailCadastro, setEmailCadastro] = useState("");
   const [passwordCadastro, setPasswordCadastro] = useState("");
@@ -39,6 +39,10 @@ export default function Register() {
         const data = await response.json();
         console.log(data);
         navigation.navigate("SignIn");
+      } else {
+        // Trata respostas não bem-sucedidas
+        const errorData = await response.json();
+        console.error(`Erro ao realizar cadastro: ${errorData.error}`);
       }
     } catch (error) {
       console.error("Erro ao realizar cadastro:", error);

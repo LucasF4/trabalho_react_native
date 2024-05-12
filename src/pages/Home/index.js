@@ -1,12 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import Header from "./Header";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Overview from "./Overview";
 import Releases from "./Releases";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../contexts/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import * as Animatable from "react-native-animatable";
 
-export default function Home() {
+export default function Home({ route }) {
+  const navigation = useNavigation();
+  const [tokenStorage, setTokenStorage] = useState(null);
+  const tokenSalvo = route.params?.token;
+  useEffect(() => {
+    setTokenStorage(tokenSalvo);
+  }, [tokenSalvo]);
+  const [loading, setLoading] = useState(true);
   const [showAddButton, setShowAddButton] = useState(true);
   const [userInfo, setUserInfo] = useState({});
   const [valorAt, setValorAt] = useState("0,00");
@@ -20,37 +30,74 @@ export default function Home() {
       setShowAddButton(true);
     }
   };
-
   useEffect(() => {
-    const getUserInfo = async () => {
-      const data = await handleInfo();
-      setUserInfo(data);
+    const fetchHandleInfo = async () => {
+      try {
+        let newData;
+        newData = await handleInfo(navigation);
+        setUserInfo(newData);
+        setLoading(false);
+      } catch (error) {
+        setLoading(true);
+        console.error("Erro ao buscar informações do usuário:", error);
+        navigation.replace("SignIn");
+      }
     };
-    getUserInfo();
-  }, [handleInfo]);
+
+    fetchHandleInfo();
+  }, []); // Adicione tokenSalvo como uma dependência do useEffect
 
   useEffect(() => {
     console.log(userInfo);
   }, [userInfo]);
 
   useEffect(() => {
-    if (userInfo) {
-      setUsername(userInfo.name);
+    if (userInfo && userInfo.usuario && userInfo.usuario.length > 0) {
+      setUsername(userInfo.usuario[0].name);
       const valorAt = (userInfo.valorAt / 100).toFixed(2).replace(".", ",");
       setValorAt(valorAt);
+    } else {
+      console.log("Usuário não encontrado");
     }
-  }, [userInfo, setValorAt, setUsername]);
+  }, [userInfo]);
 
   useEffect(() => {
     console.log("Username", username);
   }, [username]);
-  return (
+
+  const Logout = async () => {
+    try {
+      await AsyncStorage.removeItem("token");
+      navigation.replace("SignIn");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "SignIn" }],
+      });
+      if (tokenStorage) {
+        setTokenStorage(null);
+      }
+    } catch (e) {
+      console.error("Erro ao fazer o logout", e);
+    }
+  };
+  return loading ? (
+    <Animatable.View
+      animation="rotate"
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      iterationCount="infinite"
+    >
+      <Icon name="refresh" size={70} color="#36B44C" />
+    </Animatable.View>
+  ) : (
     <ScrollView
       style={styles.container}
       onScroll={handleScroll}
       scrollEventThrottle={16}
     >
       <Header username={username} />
+      <TouchableOpacity onPress={Logout}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
       <Overview valorAt={valorAt} />
       <Releases />
     </ScrollView>

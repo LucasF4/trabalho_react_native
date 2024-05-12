@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
-import { useNavigation } from "@react-navigation/native";
 import { styles } from "./Style";
 
 import {
@@ -13,22 +12,22 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native";
 import { AuthContext } from "../../contexts/auth";
-
+import { useNavigation } from "@react-navigation/native";
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userLogin, setUserLogin] = useState(null);
   const { handleLogin } = useContext(AuthContext);
-
+  const navigation = useNavigation();
   useEffect(() => {
     setUserLogin({
       email: email,
       password: password,
     });
   }, [email, password]);
-  const navigation = useNavigation();
+
   const login = () => {
-    handleLogin(userLogin);
+    handleLogin(userLogin, navigation);
   };
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">

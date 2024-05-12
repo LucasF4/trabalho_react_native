@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  Button,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  Touchable,
   TouchableOpacity,
   View,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { AuthContext } from "../../contexts/auth";
+import { AlertGastoAdd } from "./alertGastoAdd.jsx";
 
 export default function ModalScreen() {
+  const { handlePostGastos } = useContext(AuthContext);
+  const [gastos, setGastos] = useState(null);
   const [selectedValue, setSelectedValue] = useState("gasto");
   const [nomeLancamento, setNomeLancamento] = useState("");
   const [valorLancamento, setValorLancamento] = useState("");
@@ -20,12 +21,21 @@ export default function ModalScreen() {
   useEffect(() => {
     setValueDef(valorLancamento * 100);
   }, [valorLancamento]);
-  const handleAddLancamento = async () => {
+  const [gastoAdicionado, setGastoAdicionado] = useState(false);
+
+  useEffect(() => {
+    setGastos({
+      nameProd: nomeLancamento,
+      valorGasto: valueDef,
+    });
+  }, [nomeLancamento, valueDef]);
+  const handleAddLancamento = () => {
     console.log("Adicionando lançamento...");
     console.log("Tipo de lançamento:", selectedValue);
     console.log("Nome do lançamento:", nomeLancamento);
     console.log("Valor do lançamento:", valueDef);
     if (selectedValue === "gasto") {
+      handlePostGastos(gastos);
     }
   };
 
@@ -40,9 +50,7 @@ export default function ModalScreen() {
           <Picker
             selectedValue={selectedValue}
             style={styles.picker}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }
+            onValueChange={(itemValue) => setSelectedValue(itemValue)}
           >
             <Picker.Item label="Gasto" value="gasto" />
             <Picker.Item label="Ganho" value="ganho" />
@@ -52,7 +60,9 @@ export default function ModalScreen() {
           <Text style={{ fontFamily: "Inter_400Regular" }}>
             Nome do lançamento
           </Text>
+
           <TextInput
+            value={nomeLancamento}
             onChangeText={(text) => {
               setNomeLancamento(text);
             }}
@@ -66,7 +76,7 @@ export default function ModalScreen() {
           </Text>
           <TextInput
             onChangeText={(text) => {
-              setValorLancamento(text);
+              setValorLancamento(parseInt(text));
             }}
             keyboardType="numeric"
             style={styles.input}
@@ -76,12 +86,13 @@ export default function ModalScreen() {
         <View>
           <TouchableOpacity
             style={styles.containerButtonAdd}
-            onPress={() => handleAddLancamento()}
+            onPress={handleAddLancamento}
           >
             <Text style={styles.textButtonAdd}>Adicionar lançamento</Text>
           </TouchableOpacity>
         </View>
       </View>
+      <AlertGastoAdd />
     </ScrollView>
   );
 }

@@ -18,66 +18,6 @@ export default function Releases() {
         </View>
         <Text style={styles.textValueRelease}>R$ 20,00</Text>
       </View>
-      <View style={styles.release}>
-        <View style={styles.containerTextRelease}>
-          <View style={styles.containerIconGasto}>
-            <Icon name="call-made" size={20} color="#610808" />
-          </View>
-          <View>
-            <Text style={styles.textTagRelease}>Alimentação</Text>
-            <Text style={styles.textNameRelease}>Pagamento de conta</Text>
-          </View>
-        </View>
-        <Text style={styles.textValueRelease}>R$ 20,00</Text>
-      </View>
-      <View style={styles.release}>
-        <View style={styles.containerTextRelease}>
-          <View style={styles.containerIconGasto}>
-            <Icon name="call-made" size={20} color="#610808" />
-          </View>
-          <View>
-            <Text style={styles.textTagRelease}>Alimentação</Text>
-            <Text style={styles.textNameRelease}>Pagamento de conta</Text>
-          </View>
-        </View>
-        <Text style={styles.textValueRelease}>R$ 20,00</Text>
-      </View>
-      <View style={styles.release}>
-        <View style={styles.containerTextRelease}>
-          <View style={styles.containerIconGasto}>
-            <Icon name="call-made" size={20} color="#610808" />
-          </View>
-          <View>
-            <Text style={styles.textTagRelease}>Alimentação</Text>
-            <Text style={styles.textNameRelease}>Pagamento de conta</Text>
-          </View>
-        </View>
-        <Text style={styles.textValueRelease}>R$ 20,00</Text>
-      </View>
-      <View style={styles.release}>
-        <View style={styles.containerTextRelease}>
-          <View style={styles.containerIconGasto}>
-            <Icon name="call-made" size={20} color="#610808" />
-          </View>
-          <View>
-            <Text style={styles.textTagRelease}>Alimentação</Text>
-            <Text style={styles.textNameRelease}>Pagamento de conta</Text>
-          </View>
-        </View>
-        <Text style={styles.textValueRelease}>R$ 20,00</Text>
-      </View>
-      <View style={styles.release}>
-        <View style={styles.containerTextRelease}>
-          <View style={styles.containerIconAdd}>
-            <Icon name="add-shopping-cart" size={20} color="#3C5839" />
-          </View>
-          <View>
-            <Text style={styles.textTagRelease}>Trabalho</Text>
-            <Text style={styles.textNameRelease}>Free Lancer</Text>
-          </View>
-        </View>
-        <Text style={styles.textValueRelease}>R$ 20,00</Text>
-      </View>
     </View>
   );
 }
