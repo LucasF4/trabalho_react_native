@@ -18,7 +18,7 @@ export default function ModalSaldoInit() {
 
   useEffect(() => {
     setSendSaldo({
-      valorInit: parseFloat(saldo.replace(",", ".")) * 100,
+      valorInit: parseInt(saldo.replace(",", ".")) * 100,
     });
   }, [saldo]);
   const fecthSaldo = () => {

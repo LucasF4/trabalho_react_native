@@ -37,7 +37,7 @@ export default function Overview(props) {
           alignItems: "center",
           justifyContent: "space-between",
           backgroundColor: `${
-            parseFloat(valorAt.replace(",", ".")) >= 0 ? "#36B44C" : "#610808"
+            parseInt(valorAt.replace(",", ".")) >= 0 ? "#36B44C" : "#610808"
           }`,
           padding: 10,
           marginHorizontal: 10,

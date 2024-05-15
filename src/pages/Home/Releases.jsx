@@ -54,7 +54,7 @@ export default function Releases() {
               fontSize: 14,
             }}
           >
-            R$ {gasto.valor / 100 || "0,00"}
+            R$ {(gasto.valor / 100).toFixed(2).replace(".", ",")}
           </Text>
         </View>
       ))}

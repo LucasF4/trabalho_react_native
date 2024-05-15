@@ -27,7 +27,7 @@ export default function ModalScreen() {
   //************************************** */
 
   useEffect(() => {
-    setValueDef(parseFloat(valorLancamento.replace(",", ".")) * 100);
+    setValueDef(parseInt(valorLancamento.replace(",", ".")) * 100);
   }, [valorLancamento]);
 
   useEffect(() => {
