@@ -239,6 +239,41 @@ function AuthProvider({ children }) {
     }
   };
 
+  const handleSaldo = async (saldo) => {
+    try {
+      const res = await fetch(`${baseApi}/saldo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(saldo),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Saldo adicionado com sucesso!");
+        setAlertVisible(false);
+        return data;
+      } else {
+        if (res.status === 401) {
+          console.log("Token expirado, faça login novamente");
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+          navigation.replace("SignIn");
+        }
+        console.log("Erro ao adicionar saldo else");
+        return null;
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        console.log("Token expirado, faça login novamente");
+        // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+        navigation.replace("SignIn");
+      }
+      console.log("Erro ao adicionar saldo", err);
+      return null;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -252,6 +287,7 @@ function AuthProvider({ children }) {
         token,
         handlePostGanhos,
         handleGetGanhos,
+        handleSaldo,
       }}
     >
       {children}

@@ -27,7 +27,7 @@ export default function ModalScreen() {
   //************************************** */
 
   useEffect(() => {
-    setValueDef(valorLancamento * 100);
+    setValueDef(parseFloat(valorLancamento.replace(",", ".")) * 100);
   }, [valorLancamento]);
 
   useEffect(() => {
@@ -60,10 +60,9 @@ export default function ModalScreen() {
       console.log("entrei ganho");
       await handlePostGanhos(ganhos, navigation);
     }
-    await handleGetGastos(navigation);
+    await handleGetGastos(navigation); // Atualiza os lançamentos após adicionar um novo
     await handleInfo(navigation);
   };
-
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -102,7 +101,7 @@ export default function ModalScreen() {
           </Text>
           <TextInput
             onChangeText={(text) => {
-              setValorLancamento(parseInt(text));
+              setValorLancamento(text);
             }}
             keyboardType="numeric"
             style={styles.input}

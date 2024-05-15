@@ -2,41 +2,59 @@ import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../contexts/auth";
-
+import { useNavigation } from "@react-navigation/native";
 export default function Releases() {
-  const { handleGetGastos } = useContext(AuthContext);
-  const [gastos, setGastos] = useState([]);
+  const navigation = useNavigation();
+  const { userInfo } = useContext(AuthContext);
+  const [releases, setReleases] = useState([]);
 
   useEffect(() => {
-    const fecthGastos = async () => {
-      const gastoAt = await handleGetGastos();
-      if (gastoAt && typeof gastoAt === "object") {
-        setGastos(Object.values(gastoAt).flat());
-        console.log("Meus gastos", Object.values(gastoAt));
-      } else {
-        console.error("handleGetGastos não retornou um objeto", gastoAt);
-      }
-    };
-    fecthGastos();
+    const intervalId = setInterval(() => {
+      setReleases(userInfo.ultimasTransicoes);
+    }, 1000);
+    return () => clearInterval(intervalId);
   }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.textReleases}>Últimos lançamentos</Text>
-      {gastos.map((gasto, index) => (
+      {releases.map((gasto, index) => (
         <View key={index} style={styles.release}>
           <View style={styles.containerTextRelease}>
-            <View style={styles.containerIconGasto}>
-              <Icon name="money-off" size={20} color="#610808" />
+            <View
+              style={{
+                width: 40,
+                height: 40,
+                backgroundColor: `${
+                  gasto.tipo === "ganho" ? "#C7FFC2" : "#FFC7C7"
+                }`,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 10,
+              }}
+            >
+              <Icon
+                name={`${
+                  gasto.tipo == "ganho" ? "add-shopping-cart" : "money-off"
+                }`}
+                size={20}
+                color={`${gasto.tipo == "ganho" ? "#3C5839" : "#610808"}`}
+              />
             </View>
             <View>
               <Text style={styles.textNameRelease}>
                 {gasto.nameProd || "Nome do gasto"}
               </Text>
-              <Text style={styles.textTagRelease}>Gasto</Text>
+              <Text style={styles.textTagRelease}>{gasto.tipo}</Text>
             </View>
           </View>
-          <Text style={styles.textValueRelease}>
-            R$ {gasto.valorGasto / 100 || "0,00"}
+          <Text
+            style={{
+              color: `${gasto.tipo == "ganho" ? "#3C5839" : "#610808"}`,
+              fontFamily: "Inter_600SemiBold",
+              fontSize: 14,
+            }}
+          >
+            R$ {gasto.valor / 100 || "0,00"}
           </Text>
         </View>
       ))}
@@ -80,27 +98,5 @@ const styles = StyleSheet.create({
     color: "black",
     fontFamily: "Inter_600SemiBold",
     fontSize: 12,
-  },
-  textValueRelease: {
-    color: "#610808",
-    fontFamily: "Inter_600SemiBold",
-    fontSize: 14,
-  },
-
-  containerIconGasto: {
-    width: 40,
-    height: 40,
-    backgroundColor: "#FFC7C7",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-  },
-  containerIconAdd: {
-    width: 40,
-    height: 40,
-    backgroundColor: "#C7FFC2",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
   },
 });

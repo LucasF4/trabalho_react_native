@@ -16,25 +16,25 @@ import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
 import ModalSaldoInit from "./ModalSaldoInit";
 
-// function wait(timeout) {
-//   return new Promise((resolve) => {
-//     setTimeout(resolve, timeout);
-//   });
-// }
-
 export default function Home({ route }) {
-  // const [refreshing, setRefreshing] = useState(false);
-
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-
-  //   // Aqui você pode chamar a função que atualiza os dados
-  //   // Por exemplo: fetchHandleInfo();
-
-  //   wait(2000).then(() => setRefreshing(false));
-  // }, []);
   const { handleInfo } = useContext(AuthContext);
-
+  const [refreshing, setRefreshing] = useState(false);
+  const fetchHandleInfo = async () => {
+    try {
+      let newData;
+      newData = await handleInfo(navigation);
+      setUserInfo(newData);
+      setLoading(false);
+    } catch (error) {
+      setLoading(true);
+      console.error("Erro ao buscar informações do usuário:", error);
+      navigation.replace("SignIn");
+    }
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchHandleInfo().then(() => setRefreshing(false));
+  }, []);
   const navigation = useNavigation();
   const [tokenStorage, setTokenStorage] = useState(null);
   const tokenSalvo = route.params?.token;
@@ -55,22 +55,10 @@ export default function Home({ route }) {
       setShowAddButton(true);
     }
   };
-  useEffect(() => {
-    const fetchHandleInfo = async () => {
-      try {
-        let newData;
-        newData = await handleInfo(navigation);
-        setUserInfo(newData);
-        setLoading(false);
-      } catch (error) {
-        setLoading(true);
-        console.error("Erro ao buscar informações do usuário:", error);
-        navigation.replace("SignIn");
-      }
-    };
 
+  useEffect(() => {
     fetchHandleInfo();
-  }, [tokenSalvo]); // Adicione tokenSalvo como uma dependência do useEffect
+  }, [tokenSalvo, refreshing]); // Adicione tokenSalvo como uma dependência do useEffect
 
   useEffect(() => {
     console.log(userInfo);
@@ -118,9 +106,9 @@ export default function Home({ route }) {
         style={styles.container}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        // refreshControl={
-        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        // }
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
         <Header username={username} />
         <TouchableOpacity onPress={Logout}>

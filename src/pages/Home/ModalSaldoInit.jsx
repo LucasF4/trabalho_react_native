@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -12,11 +11,34 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../contexts/auth";
 
 export default function ModalSaldoInit() {
-  const { alertVisible, setAlertVisible } = useContext(AuthContext);
+  const { alertVisible, setAlertVisible, userInfo, handleSaldo } =
+    useContext(AuthContext);
+  const [saldo, setSaldo] = useState("0,00");
+  const [sendSaldo, setSendSaldo] = useState(false);
 
   useEffect(() => {
-    setAlertVisible(true);
-  }, []);
+    setSendSaldo({
+      valorInit: parseFloat(saldo.replace(",", ".")) * 100,
+    });
+  }, [saldo]);
+  const fecthSaldo = () => {
+    const saldoUsuario = userInfo.usuario[0]?.valorInit;
+    if (!saldoUsuario) {
+      console.log("Saldo não encontrado");
+      setAlertVisible(true);
+    } else {
+      console.log("Saldo encontrado");
+      setAlertVisible(false);
+    }
+  };
+  useEffect(() => {
+    fecthSaldo();
+  }, [saldo]);
+
+  const handleSaldoInit = async () => {
+    console.log("entrei saldo");
+    await handleSaldo(sendSaldo);
+  };
   if (!alertVisible) {
     return null;
   }
@@ -55,18 +77,19 @@ export default function ModalSaldoInit() {
             style={styles.textSaldo}
             placeholder="Digite seu saldo"
             keyboardType="number-pad"
+            onChangeText={(text) => setSaldo(text)}
           />
         </View>
         <TouchableOpacity
           style={{
             backgroundColor: "white",
             width: "100%",
-
             alignItems: "center",
             padding: 10,
             marginTop: 20,
             borderRadius: 10,
           }}
+          onPress={handleSaldoInit}
         >
           <Text
             style={{
@@ -96,11 +119,10 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     width: "90%",
-    height: "70%",
+    height: "50%",
     backgroundColor: "#36B44C",
     borderRadius: 10,
     paddingHorizontal: 20,
-    paddingTop: 40,
     alignItems: "flex-start",
     justifyContent: "center",
   },
@@ -111,7 +133,6 @@ const styles = StyleSheet.create({
   },
   saldoInit: {
     width: "100%",
-
     backgroundColor: "#3C5839",
     padding: 10,
     marginTop: 20,

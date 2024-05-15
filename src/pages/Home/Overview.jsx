@@ -19,17 +19,32 @@ export default function Overview(props) {
     setGastoTotal(gastoAt);
     setGanhoTotal(ganhoAt);
   }, [userInfo, valorAt, gastoTotal]);
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 3000);
   }, []);
+
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.titleOverview}>Visão Geral</Text>
       </View>
-      <View style={styles.saldoInit}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          backgroundColor: `${
+            parseFloat(valorAt.replace(",", ".")) >= 0 ? "#36B44C" : "#610808"
+          }`,
+          padding: 10,
+          marginHorizontal: 10,
+          borderRadius: 10,
+          marginVertical: 10,
+        }}
+      >
         <View>
           <Text style={styles.textWallet}>Carteira</Text>
           {loading ? (
@@ -121,20 +136,11 @@ export default function Overview(props) {
     </View>
   );
 }
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     width: "100%",
   },
-  saldoInit: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#36B44C",
-    padding: 10,
-    marginHorizontal: 10,
-    borderRadius: 10,
-    marginVertical: 10,
-  },
+
   textWallet: {
     fontFamily: "Inter_400Regular",
     fontSize: 15,
