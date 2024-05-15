@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
+import { AuthContext } from "../../contexts/auth";
 
 export default function Overview(props) {
   const [loading, setLoading] = useState(true);
+  const { userInfo } = useContext(AuthContext);
+  const [valorAt, setValorAt] = useState("0,00");
+  const [gastoTotal, setGastoTotal] = useState("0,00");
+  const [ganhoTotal, setGanhoTotal] = useState("0,00");
+
+  useEffect(() => {
+    const valueAt = (userInfo.valorAt / 100).toFixed(2).replace(".", ",");
+    const gastoAt = (userInfo.valorGasto / 100).toFixed(2).replace(".", ",");
+    const ganhoAt = (userInfo.valorGanho / 100).toFixed(2).replace(".", ",");
+    setValorAt(valueAt);
+    setGastoTotal(gastoAt);
+    setGanhoTotal(ganhoAt);
+  }, [userInfo, valorAt, gastoTotal]);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 3000);
   }, []);
-  const { valorAt } = props;
   return (
     <View style={styles.container}>
       <View>
@@ -74,7 +87,7 @@ export default function Overview(props) {
                   color: "#3C5839",
                 }}
               >
-                R$ {valorAt}
+                R$ {ganhoTotal}
               </Text>
             )}
           </View>
@@ -88,7 +101,6 @@ export default function Overview(props) {
               style={{
                 fontFamily: "Inter_400Regular",
                 color: "#999999",
-                marginBottom: -5,
                 fontSize: 12,
               }}
             >
@@ -101,7 +113,7 @@ export default function Overview(props) {
                 color: "#610808",
               }}
             >
-              R$ 20,000
+              R$ {gastoTotal}
             </Text>
           </View>
         </View>

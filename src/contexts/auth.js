@@ -6,7 +6,9 @@ import getEnvVars from "../../environment";
 
 function AuthProvider({ children }) {
   const { BASE_API } = getEnvVars();
-  const [user, setUser] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
+  const [gastos, setGastos] = useState({});
+  const [ganhos, setGanhos] = useState([]);
   // Adiciona um estado para armazenar os gastos [1
   const [token, setToken] = useState(null);
   const baseApi = BASE_API;
@@ -96,11 +98,16 @@ function AuthProvider({ children }) {
       if (response.ok) {
         console.log("Consulta info realizada:");
         const data = await response.json();
+        setUserInfo(data);
         return data;
         // Do something with the response data
       } else {
         console.log("Erro ao consultar infos: resposta não foi bem-sucedida");
-        navigation.replace("SignIn");
+        if (res.status === 401) {
+          console.log("Token expirado, faça login novamente");
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+          navigation.replace("SignIn");
+        }
       }
     } catch (error) {
       console.error("Erro ao consultar infos:", error);
@@ -108,7 +115,7 @@ function AuthProvider({ children }) {
     }
   };
 
-  const handlePostGastos = async (gasto) => {
+  const handlePostGastos = async (gasto, navigation) => {
     try {
       const res = await fetch(`${baseApi}/gasto`, {
         method: "POST",
@@ -122,22 +129,22 @@ function AuthProvider({ children }) {
         const data = await res.json();
         console.log("Gasto adicionado com sucesso!");
         setAlertVisible(true); // Atualize o estado para true quando um gasto for adicionado com sucesso
-
         return data;
       } else {
-        console.log("Erro ao adicionar gasto: resposta não foi bem-sucedida");
+        if (res.status === 401) {
+          console.log("Token expirado, faça login novamente");
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+          navigation.replace("SignIn");
+        }
+
         return null;
       }
     } catch (err) {
-      if (err.response.status === 401) {
-        console.log("Token expirado, faça login novamente");
-        // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
-      }
       console.log("Erro ao adicionar gasto:", err);
       return null;
     }
   };
-  const handleGetGastos = async () => {
+  const handleGetGastos = async (navigation) => {
     try {
       const res = await fetch(`${baseApi}/gasto`, {
         method: "GET",
@@ -149,20 +156,89 @@ function AuthProvider({ children }) {
       if (res.ok) {
         const data = await res.json();
         console.log("Gastos encontrados com sucesso!");
+        console.log(data);
         return data;
       } else {
+        if (res.status === 401) {
+          console.log("Token expirado, faça login novamente");
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+          navigation.replace("SignIn");
+        }
         console.log("Erro ao encontrar gastos");
+        return null;
+      }
+    } catch (err) {
+      console.log("Erro ao adicionar gasto:", err);
+      return null;
+    }
+  };
+
+  const handlePostGanhos = async (ganhos, navigation) => {
+    try {
+      const res = await fetch(`${baseApi}/ganhos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(ganhos),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Ganho adicionado com sucesso!");
+        setAlertVisible(true); // Atualize o estado para true quando um gasto for adicionado com sucesso
+
+        return data;
+      } else {
+        if (res.status === 401) {
+          console.log("Token expirado, faça login novamente");
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+          navigation.replace("SignIn");
+        }
+        console.log("Erro ao adicionar ganho");
+
+        return null;
+      }
+    } catch (err) {
+      console.log("Erro ao adicionar gasto:", err);
+      return null;
+    }
+  };
+
+  const handleGetGanhos = async (navigation) => {
+    try {
+      const res = await fetch(`${baseApi}/gasto`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Ganhos encontrados com sucesso!");
+
+        return data;
+      } else {
+        if (res.status === 401) {
+          console.log("Token expirado, faça login novamente");
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+          navigation.replace("SignIn");
+        }
+        console.log("Erro ao encontrar Ganhos");
         return null;
       }
     } catch (err) {
       if (err.response.status === 401) {
         console.log("Token expirado, faça login novamente");
         // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+        navigation.replace("SignIn");
       }
-      console.log("Erro ao adicionar gasto:", err);
+      console.log("Erro ao encontrar Ganhos:", err);
       return null;
     }
   };
+
   return (
     <AuthContext.Provider
       value={{
@@ -171,7 +247,11 @@ function AuthProvider({ children }) {
         handlePostGastos,
         alertVisible,
         setAlertVisible,
+        handleGetGastos,
+        userInfo,
         token,
+        handlePostGanhos,
+        handleGetGanhos,
       }}
     >
       {children}

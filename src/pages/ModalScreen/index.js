@@ -10,33 +10,58 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { AuthContext } from "../../contexts/auth";
 import { AlertGastoAdd } from "./alertGastoAdd.jsx";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ModalScreen() {
-  const { handlePostGastos } = useContext(AuthContext);
+  //************************************** */
+  const { handlePostGastos, handleGetGastos, handleInfo, handlePostGanhos } =
+    useContext(AuthContext);
   const [gastos, setGastos] = useState(null);
+  const [ganhos, setGanhos] = useState(null);
   const [selectedValue, setSelectedValue] = useState("gasto");
   const [nomeLancamento, setNomeLancamento] = useState("");
   const [valorLancamento, setValorLancamento] = useState("");
   const [valueDef, setValueDef] = useState("");
+  const [gastoAdicionado, setGastoAdicionado] = useState(false);
+  const navigation = useNavigation();
+  //************************************** */
+
   useEffect(() => {
     setValueDef(valorLancamento * 100);
   }, [valorLancamento]);
-  const [gastoAdicionado, setGastoAdicionado] = useState(false);
 
   useEffect(() => {
     setGastos({
       nameProd: nomeLancamento,
       valorGasto: valueDef,
     });
+
+    setGanhos({
+      nomeProd: nomeLancamento,
+      valorGanho: valueDef,
+    });
   }, [nomeLancamento, valueDef]);
-  const handleAddLancamento = () => {
-    console.log("Adicionando lançamento...");
-    console.log("Tipo de lançamento:", selectedValue);
-    console.log("Nome do lançamento:", nomeLancamento);
-    console.log("Valor do lançamento:", valueDef);
-    if (selectedValue === "gasto") {
-      handlePostGastos(gastos);
+
+  const handleAddLancamento = async () => {
+    if (
+      (nomeLancamento === "" && valorLancamento === "") ||
+      nomeLancamento.length < 3 ||
+      valorLancamento === 0
+    ) {
+      console.log("Preencha os campos");
+      return;
     }
+
+    if (selectedValue == "gasto") {
+      console.log("entrei gasto");
+      await handlePostGastos(gastos, navigation);
+    }
+    if (selectedValue == "ganho") {
+      console.log("entrei ganho");
+      await handlePostGanhos(ganhos, navigation);
+    }
+    await handleGetGastos(navigation);
+    await handleInfo(navigation);
   };
 
   return (
@@ -47,6 +72,7 @@ export default function ModalScreen() {
           <Text style={{ fontFamily: "Inter_400Regular" }}>
             Selecione o tipo de lançamento
           </Text>
+          <Text>{selectedValue}</Text>
           <Picker
             selectedValue={selectedValue}
             style={styles.picker}

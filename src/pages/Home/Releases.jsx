@@ -1,23 +1,45 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { AuthContext } from "../../contexts/auth";
 
 export default function Releases() {
+  const { handleGetGastos } = useContext(AuthContext);
+  const [gastos, setGastos] = useState([]);
+
+  useEffect(() => {
+    const fecthGastos = async () => {
+      const gastoAt = await handleGetGastos();
+      if (gastoAt && typeof gastoAt === "object") {
+        setGastos(Object.values(gastoAt).flat());
+        console.log("Meus gastos", Object.values(gastoAt));
+      } else {
+        console.error("handleGetGastos não retornou um objeto", gastoAt);
+      }
+    };
+    fecthGastos();
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.textReleases}>Últimos lançamentos</Text>
-      <View style={styles.release}>
-        <View style={styles.containerTextRelease}>
-          <View style={styles.containerIconGasto}>
-            <Icon name="call-made" size={20} color="#610808" />
+      {gastos.map((gasto, index) => (
+        <View key={index} style={styles.release}>
+          <View style={styles.containerTextRelease}>
+            <View style={styles.containerIconGasto}>
+              <Icon name="money-off" size={20} color="#610808" />
+            </View>
+            <View>
+              <Text style={styles.textNameRelease}>
+                {gasto.nameProd || "Nome do gasto"}
+              </Text>
+              <Text style={styles.textTagRelease}>Gasto</Text>
+            </View>
           </View>
-          <View>
-            <Text style={styles.textTagRelease}>Alimentação</Text>
-            <Text style={styles.textNameRelease}>Pagamento de conta</Text>
-          </View>
+          <Text style={styles.textValueRelease}>
+            R$ {gasto.valorGasto / 100 || "0,00"}
+          </Text>
         </View>
-        <Text style={styles.textValueRelease}>R$ 20,00</Text>
-      </View>
+      ))}
     </View>
   );
 }

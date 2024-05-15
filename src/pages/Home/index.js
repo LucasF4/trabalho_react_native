@@ -1,6 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import Header from "./Header";
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  ScrollView,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import Overview from "./Overview";
 import Releases from "./Releases";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -8,8 +14,27 @@ import { AuthContext } from "../../contexts/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
+import ModalSaldoInit from "./ModalSaldoInit";
+
+// function wait(timeout) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, timeout);
+//   });
+// }
 
 export default function Home({ route }) {
+  // const [refreshing, setRefreshing] = useState(false);
+
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+
+  //   // Aqui você pode chamar a função que atualiza os dados
+  //   // Por exemplo: fetchHandleInfo();
+
+  //   wait(2000).then(() => setRefreshing(false));
+  // }, []);
+  const { handleInfo } = useContext(AuthContext);
+
   const navigation = useNavigation();
   const [tokenStorage, setTokenStorage] = useState(null);
   const tokenSalvo = route.params?.token;
@@ -20,8 +45,8 @@ export default function Home({ route }) {
   const [showAddButton, setShowAddButton] = useState(true);
   const [userInfo, setUserInfo] = useState({});
   const [valorAt, setValorAt] = useState("0,00");
+  const [gastoTotal, setGastoTotal] = useState("0,00");
   const [username, setUsername] = useState("Usuário");
-  const { handleInfo } = useContext(AuthContext);
   const handleScroll = (event) => {
     const { y } = event.nativeEvent.contentOffset;
     if (y > 0 && showAddButton) {
@@ -45,7 +70,7 @@ export default function Home({ route }) {
     };
 
     fetchHandleInfo();
-  }, []); // Adicione tokenSalvo como uma dependência do useEffect
+  }, [tokenSalvo]); // Adicione tokenSalvo como uma dependência do useEffect
 
   useEffect(() => {
     console.log(userInfo);
@@ -54,8 +79,6 @@ export default function Home({ route }) {
   useEffect(() => {
     if (userInfo && userInfo.usuario && userInfo.usuario.length > 0) {
       setUsername(userInfo.usuario[0].name);
-      const valorAt = (userInfo.valorAt / 100).toFixed(2).replace(".", ",");
-      setValorAt(valorAt);
     } else {
       console.log("Usuário não encontrado");
     }
@@ -89,18 +112,24 @@ export default function Home({ route }) {
       <Icon name="refresh" size={70} color="#36B44C" />
     </Animatable.View>
   ) : (
-    <ScrollView
-      style={styles.container}
-      onScroll={handleScroll}
-      scrollEventThrottle={16}
-    >
-      <Header username={username} />
-      <TouchableOpacity onPress={Logout}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
-      <Overview valorAt={valorAt} />
-      <Releases />
-    </ScrollView>
+    <>
+      <ModalSaldoInit />
+      <ScrollView
+        style={styles.container}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        // refreshControl={
+        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        // }
+      >
+        <Header username={username} />
+        <TouchableOpacity onPress={Logout}>
+          <Text>Logout</Text>
+        </TouchableOpacity>
+        <Overview />
+        <Releases />
+      </ScrollView>
+    </>
   );
 }
 const styles = StyleSheet.create({
