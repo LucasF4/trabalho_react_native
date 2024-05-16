@@ -28,12 +28,12 @@ export default function ModalSaldoInit() {
       }
     };
     fecthSaldo();
-  }, [saldo, userInfo.usuario[0]?.valorInit]);
+  }, [userInfo.usuario[0]?.valorInit]);
 
   useEffect(() => {
     if (saldo) {
       setSendSaldo({
-        valorInit: parseInt(saldo.replace(",", "")),
+        valorInit: parseInt((saldo * 100).toString().replace(",", "")),
       });
     }
   }, [saldo]);
