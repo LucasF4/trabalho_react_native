@@ -12,13 +12,10 @@ export default function Overview(props) {
   const [ganhoTotal, setGanhoTotal] = useState("0,00");
 
   useEffect(() => {
-    const valueAt = (userInfo.valorAt / 100).toFixed(2).replace(".", ",");
-    const gastoAt = (userInfo.valorGasto / 100).toFixed(2).replace(".", ",");
-    const ganhoAt = (userInfo.valorGanho / 100).toFixed(2).replace(".", ",");
-    setValorAt(valueAt);
-    setGastoTotal(gastoAt);
-    setGanhoTotal(ganhoAt);
-  }, [userInfo, valorAt, gastoTotal]);
+    setValorAt((userInfo.valorAt / 100).toFixed(2).replace(".", ","));
+    setGastoTotal((userInfo.valorGasto / 100).toFixed(2).replace(".", ","));
+    setGanhoTotal((userInfo.valorGanho / 100).toFixed(2).replace(".", ","));
+  }, [userInfo, userInfo.valorAt, userInfo.valorGasto, userInfo.valorGanho]);
 
   useEffect(() => {
     setTimeout(() => {

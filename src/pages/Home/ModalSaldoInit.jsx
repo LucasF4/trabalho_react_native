@@ -13,32 +13,38 @@ import { AuthContext } from "../../contexts/auth";
 export default function ModalSaldoInit() {
   const { alertVisible, setAlertVisible, userInfo, handleSaldo } =
     useContext(AuthContext);
-  const [saldo, setSaldo] = useState("0,00");
-  const [sendSaldo, setSendSaldo] = useState(false);
+  const [saldo, setSaldo] = useState("");
+  const [sendSaldo, setSendSaldo] = useState(null);
 
   useEffect(() => {
-    setSendSaldo({
-      valorInit: parseInt(saldo.replace(",", ".")) * 100,
-    });
-  }, [saldo]);
-  const fecthSaldo = () => {
-    const saldoUsuario = userInfo.usuario[0]?.valorInit;
-    if (!saldoUsuario) {
-      console.log("Saldo não encontrado");
-      setAlertVisible(true);
-    } else {
-      console.log("Saldo encontrado");
-      setAlertVisible(false);
-    }
-  };
-  useEffect(() => {
+    const fecthSaldo = () => {
+      const saldoUsuario = userInfo.usuario[0]?.valorInit;
+      if (!saldoUsuario) {
+        console.log("Saldo não encontrado");
+        setAlertVisible(true);
+      } else {
+        console.log("Saldo encontrado");
+        setAlertVisible(false);
+      }
+    };
     fecthSaldo();
+  }, [saldo, userInfo.usuario[0]?.valorInit]);
+
+  useEffect(() => {
+    if (saldo) {
+      setSendSaldo({
+        valorInit: parseInt(saldo.replace(",", "")),
+      });
+    }
   }, [saldo]);
 
   const handleSaldoInit = async () => {
     console.log("entrei saldo");
-    await handleSaldo(sendSaldo);
+    if (sendSaldo) {
+      await handleSaldo(sendSaldo);
+    }
   };
+
   if (!alertVisible) {
     return null;
   }

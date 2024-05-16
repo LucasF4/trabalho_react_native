@@ -9,11 +9,8 @@ export default function Releases() {
   const [releases, setReleases] = useState([]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setReleases(userInfo.ultimasTransicoes);
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
+    setReleases(userInfo.ultimasTransicoes);
+  }, [userInfo.ultimasTransicoes]);
   return (
     <View style={styles.container}>
       <Text style={styles.textReleases}>Últimos lançamentos</Text>
