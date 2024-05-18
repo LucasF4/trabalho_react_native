@@ -72,6 +72,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 8,
     alignSelf: "center",
+    marginTop: 20,
   },
   button: {
     backgroundColor: "#344C",
