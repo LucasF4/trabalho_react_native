@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "nativeApp",
-    "slug": "nativeApp",
+    "slug": "trabalhoreactnative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,13 +21,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.phillred.trabalhoreactnative"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e7bb6131-0890-4378-bd8a-34f038abdc97"
+      }
+    },
+    "owner": "phillred"
   }
 }

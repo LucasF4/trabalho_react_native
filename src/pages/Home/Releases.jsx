@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../contexts/auth";
 import { useNavigation } from "@react-navigation/native";
+
 export default function Releases() {
   const navigation = useNavigation();
   const { userInfo } = useContext(AuthContext);
@@ -44,15 +45,31 @@ export default function Releases() {
               <Text style={styles.textTagRelease}>{gasto.tipo}</Text>
             </View>
           </View>
-          <Text
+          <View
             style={{
-              color: `${gasto.tipo == "ganho" ? "#3C5839" : "#610808"}`,
-              fontFamily: "Inter_600SemiBold",
-              fontSize: 14,
+              alignItems: "flex-end",
+              justifyContent: "center",
             }}
           >
-            R$ {(gasto.valor / 100).toFixed(2).replace(".", ",")}
-          </Text>
+            <Text
+              style={{
+                color: `${gasto.tipo == "ganho" ? "#3C5839" : "#610808"}`,
+                fontFamily: "Poppins_600SemiBold",
+                fontSize: 14,
+              }}
+            >
+              R$ {(gasto.valor / 100).toFixed(2).replace(".", ",")}
+            </Text>
+            <Text
+              style={{
+                color: "#999999",
+                fontFamily: "Poppins_400Regular",
+                fontSize: 10,
+              }}
+            >
+              {new Date(gasto.createdAt).toLocaleDateString("pt-BR")}
+            </Text>
+          </View>
         </View>
       ))}
     </View>
@@ -82,18 +99,18 @@ const styles = StyleSheet.create({
   },
   textReleases: {
     color: "black",
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Poppins_600SemiBold",
     fontSize: 15,
   },
   textTagRelease: {
     color: "#999999",
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Poppins_400Regular",
     fontSize: 11,
     marginBottom: -5,
   },
   textNameRelease: {
     color: "black",
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Poppins_600SemiBold",
     fontSize: 12,
   },
 });

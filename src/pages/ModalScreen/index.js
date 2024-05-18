@@ -68,10 +68,8 @@ export default function ModalScreen() {
       <View style={styles.container}>
         <Text style={styles.text}>Adicionar lançamento</Text>
         <View style={styles.containerPicker}>
-          <Text style={{ fontFamily: "Inter_400Regular" }}>
-            Selecione o tipo de lançamento
-          </Text>
-          <Text>{selectedValue}</Text>
+          <Text style={styles.textModal}>Selecione o tipo de lançamento</Text>
+
           <Picker
             selectedValue={selectedValue}
             style={styles.picker}
@@ -82,9 +80,7 @@ export default function ModalScreen() {
           </Picker>
         </View>
         <View>
-          <Text style={{ fontFamily: "Inter_400Regular" }}>
-            Nome do lançamento
-          </Text>
+          <Text style={styles.textModal}>Nome do lançamento</Text>
 
           <TextInput
             value={nomeLancamento}
@@ -96,9 +92,7 @@ export default function ModalScreen() {
           />
         </View>
         <View>
-          <Text style={{ fontFamily: "Inter_400Regular" }}>
-            Valor do lançamento
-          </Text>
+          <Text style={styles.textModal}>Valor do lançamento</Text>
           <TextInput
             onChangeText={(text) => {
               setValorLancamento(text);
@@ -134,8 +128,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Poppins_600SemiBold",
     color: "#36B44C",
+  },
+
+  textModal: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 16,
+    color: "#000",
   },
 
   picker: {
@@ -154,16 +154,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textButtonAdd: {
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Poppins_600SemiBold",
     fontSize: 15,
     color: "#fff",
   },
   input: {
     width: "100%",
-    height: 50,
+
     backgroundColor: "#fff",
     borderRadius: 10,
     marginTop: 5,
-    padding: 10,
+    padding: 15,
+    borderWidth: 1,
+    fontFamily: "Poppins_400Regular",
+    borderColor: "#36B44C",
+    fontSize: 16,
   },
 });

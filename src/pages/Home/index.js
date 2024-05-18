@@ -19,6 +19,13 @@ import ModalSaldoInit from "./ModalSaldoInit";
 export default function Home({ route }) {
   const { handleInfo } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [showAddButton, setShowAddButton] = useState(true);
+  const [userInfo, setUserInfo] = useState({});
+  const [valorAt, setValorAt] = useState("0,00");
+  const [gastoTotal, setGastoTotal] = useState("0,00");
+  const [username, setUsername] = useState("Usuário");
+
   const fetchHandleInfo = async () => {
     try {
       let newData;
@@ -31,22 +38,29 @@ export default function Home({ route }) {
       navigation.replace("SignIn");
     }
   };
-  const onRefresh = React.useCallback(() => {
+
+  //* Função para atualizar a tela
+  const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    fetchHandleInfo().then(() => setRefreshing(false));
+    try {
+      await handleInfo(navigation);
+      setRefreshing(false);
+    } catch (error) {
+      console.error("Erro ao atualizar a tela:", error);
+      if (error.response.status === 401) {
+        navigation.replace("SignIn");
+      }
+    }
   }, []);
+
   const navigation = useNavigation();
   const [tokenStorage, setTokenStorage] = useState(null);
   const tokenSalvo = route.params?.token;
+
   useEffect(() => {
     setTokenStorage(tokenSalvo);
   }, [tokenSalvo]);
-  const [loading, setLoading] = useState(true);
-  const [showAddButton, setShowAddButton] = useState(true);
-  const [userInfo, setUserInfo] = useState({});
-  const [valorAt, setValorAt] = useState("0,00");
-  const [gastoTotal, setGastoTotal] = useState("0,00");
-  const [username, setUsername] = useState("Usuário");
+
   const handleScroll = (event) => {
     const { y } = event.nativeEvent.contentOffset;
     if (y > 0 && showAddButton) {

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
 import { AuthContext } from "../../contexts/auth";
+import { CardOverview } from "./cardOverview";
 
 export default function Overview(props) {
   const [loading, setLoading] = useState(true);
@@ -10,12 +11,40 @@ export default function Overview(props) {
   const [valorAt, setValorAt] = useState("0,00");
   const [gastoTotal, setGastoTotal] = useState("0,00");
   const [ganhoTotal, setGanhoTotal] = useState("0,00");
+  const [valorInit, setValorInit] = useState("0,00");
+  useEffect(() => {
+    setValorInit(
+      userInfo.usuario[0].valorInit === null ||
+        userInfo.usuario[0].valorInit === undefined ||
+        userInfo.usuario[0].valorInit === NaN ||
+        userInfo.usuario[0].valorInit === 0
+        ? "0,00"
+        : (userInfo.usuario[0].valorInit / 100).toFixed(2).replace(".", ",")
+    );
+  }, [userInfo.usuario[0].valorInit]);
 
   useEffect(() => {
-    setValorAt((userInfo.valorAt / 100).toFixed(2).replace(".", ","));
+    setValorAt(
+      userInfo.valorAt === null ||
+        userInfo.valorAt === undefined ||
+        userInfo.valorAt === NaN ||
+        userInfo.valorAt === 0
+        ? valorInit
+        : (userInfo.valorAt / 100).toFixed(2).replace(".", ",")
+    );
     setGastoTotal((userInfo.valorGasto / 100).toFixed(2).replace(".", ","));
     setGanhoTotal((userInfo.valorGanho / 100).toFixed(2).replace(".", ","));
-  }, [userInfo, userInfo.valorAt, userInfo.valorGasto, userInfo.valorGanho]);
+  }, [
+    userInfo,
+    userInfo.valorAt,
+    userInfo.valorGasto,
+    userInfo.valorGanho,
+    userInfo.usuario[0].valorInit,
+  ]);
+
+  useEffect(() => {
+    console.log("valorAt: ", valorAt);
+  }, [valorAt]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,39 +57,18 @@ export default function Overview(props) {
       <View>
         <Text style={styles.titleOverview}>Visão Geral</Text>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          backgroundColor: `${
-            parseInt(valorAt.replace(",", ".")) >= 0 ? "#36B44C" : "#610808"
-          }`,
-          padding: 10,
-          marginHorizontal: 10,
-          borderRadius: 10,
-          marginVertical: 10,
-        }}
-      >
-        <View>
-          <Text style={styles.textWallet}>Carteira</Text>
-          {loading ? (
-            <Animatable.Text
-              style={{
-                backgroundColor: "#7dff86",
-                height: 25,
-                width: 100,
-                borderRadius: 2,
-              }}
-              animation="pulse"
-              iterationCount="infinite"
-            ></Animatable.Text>
-          ) : (
-            <Text style={styles.textSaldo}>R$ {valorAt}</Text>
-          )}
-        </View>
-        <Icon name="account-balance-wallet" size={50} color="white" />
-      </View>
+      <CardOverview
+        valorAt={valorInit}
+        nome="Valor inicial"
+        background={`${"rgba(0, 0, 0, 0.5)"}`}
+      />
+      <CardOverview
+        valorAt={valorAt}
+        nome="Carteira"
+        background={`${
+          parseInt(valorAt.replace(",", ".")) >= 0 ? "#36B44C" : "#610808"
+        }`}
+      />
       <View style={styles.contentOverview}>
         <View style={styles.containerAddGanho}>
           <View style={styles.containerIconAdd}>
@@ -69,9 +77,8 @@ export default function Overview(props) {
           <View>
             <Text
               style={{
-                fontFamily: "Inter_400Regular",
+                fontFamily: "Poppins_400Regular",
                 color: "#999999",
-
                 fontSize: 12,
               }}
             >
@@ -82,7 +89,7 @@ export default function Overview(props) {
                 style={{
                   backgroundColor: "#f0f0f0",
                   height: 20,
-                  fontFamily: "Inter_600SemiBold",
+                  fontFamily: "Poppins_600SemiBold",
                   fontSize: 18,
                   width: 100,
                   borderRadius: 2,
@@ -94,7 +101,7 @@ export default function Overview(props) {
             ) : (
               <Text
                 style={{
-                  fontFamily: "Inter_600SemiBold",
+                  fontFamily: "Poppins_600SemiBold",
                   fontSize: 18,
                   color: "#3C5839",
                 }}
@@ -111,7 +118,7 @@ export default function Overview(props) {
           <View>
             <Text
               style={{
-                fontFamily: "Inter_400Regular",
+                fontFamily: "Poppins_400Regular",
                 color: "#999999",
                 fontSize: 12,
               }}
@@ -120,7 +127,7 @@ export default function Overview(props) {
             </Text>
             <Text
               style={{
-                fontFamily: "Inter_600SemiBold",
+                fontFamily: "Poppins_600SemiBold",
                 fontSize: 18,
                 color: "#610808",
               }}
@@ -133,27 +140,29 @@ export default function Overview(props) {
     </View>
   );
 }
+
 export const styles = StyleSheet.create({
   container: {
     width: "100%",
   },
 
   textWallet: {
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Poppins_400Regular",
     fontSize: 15,
     color: "#edebeb",
   },
   textSaldo: {
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Poppins_600SemiBold",
     fontSize: 25,
     color: "white",
   },
   contentOverview: {
     flexDirection: "row",
     gap: 5,
+    marginTop: 5,
   },
   titleOverview: {
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Poppins_600SemiBold",
     fontSize: 18,
     color: "black",
     paddingHorizontal: 10,

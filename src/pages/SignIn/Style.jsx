@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   title: {
     width: "100%",
     fontSize: 25,
-    fontFamily: "Inter_700Bold",
+    fontFamily: "Poppins_600SemiBold",
     color: "white",
     marginBottom: 20,
     backgroundColor: "#36B44C",
@@ -46,22 +46,21 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
   textInput: {
-    color: "black",
+    color: "#000",
     alignSelf: "flex-start",
     fontSize: 16,
-    fontFamily: "Inter_700Bold",
+    fontFamily: "Poppins_500Medium",
   },
   input: {
-    borderBottomWidth: 1,
-
+    borderWidth: 1,
+    borderColor: "#36B44C",
     opacity: 0.8,
     width: "100%",
-    height: 50,
     borderRadius: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    marginBottom: 15,
+    padding: 12,
     color: "black",
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Poppins_400Regular",
     fontSize: 16,
   },
 
@@ -87,16 +86,16 @@ export const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 18,
-    fontFamily: "Inter_700Bold",
+    fontFamily: "Poppins_600SemiBold",
   },
   cntBtnCadastro: {
     width: "100%",
-    marginTop: 20,
+    marginTop: 18,
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
   },
   textBtnCadastro: {
-    fontFamily: "Inter_700Bold",
+    fontFamily: "Poppins_600SemiBold",
   },
 });

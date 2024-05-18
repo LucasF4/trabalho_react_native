@@ -7,14 +7,15 @@ import getEnvVars from "../../environment";
 function AuthProvider({ children }) {
   const { BASE_API } = getEnvVars();
   const [userInfo, setUserInfo] = useState({});
-  const [gastos, setGastos] = useState({});
+  const [gastos, setGastos] = useState([]);
   const [ganhos, setGanhos] = useState([]);
   // Adiciona um estado para armazenar os gastos [1
   const [token, setToken] = useState(null);
   const baseApi = BASE_API;
   const navigation = useNavigation();
   const [alertVisible, setAlertVisible] = useState(false);
-
+  const [modalDadosIncorrectos, setModalDadosIncorrectos] = useState(false);
+  const [modalGanhoAdicionado, setModalGanhoAdicionado] = useState(false);
   //* Função para armazenar o token no AsyncStorage
   const storeToken = async (tokenSalvo) => {
     try {
@@ -43,7 +44,11 @@ function AuthProvider({ children }) {
   }, [token]);
 
   //* Função para fazer login
-  const handleLogin = async (userLogin, navigation) => {
+  const handleLogin = async (
+    userLogin,
+    navigation,
+    setAlertaDadosIncorrentos
+  ) => {
     console.log("entrei login");
     try {
       const response = await fetch(`${baseApi}/login`, {
@@ -64,10 +69,12 @@ function AuthProvider({ children }) {
         return data;
       } else {
         // Trata respostas não bem-sucedidas
+        setAlertaDadosIncorrentos(true);
         const errorData = await response.json();
         console.error(`Erro ao realizar login: ${errorData.error}`);
       }
     } catch (error) {
+      setAlertaDadosIncorrentos(true);
       console.error("Erro ao realizar login==========:", error);
     }
   };
@@ -157,6 +164,7 @@ function AuthProvider({ children }) {
         const data = await res.json();
         console.log("Gastos encontrados com sucesso!");
         console.log(data);
+        setGastos(data);
         return data;
       } else {
         if (res.status === 401) {
@@ -239,7 +247,7 @@ function AuthProvider({ children }) {
     }
   };
 
-  const handleSaldo = async (saldo) => {
+  const handleSaldo = async (saldo, navigation) => {
     try {
       const res = await fetch(`${baseApi}/saldo`, {
         method: "POST",
@@ -280,6 +288,7 @@ function AuthProvider({ children }) {
         handleLogin,
         handleInfo,
         handlePostGastos,
+        gastos,
         alertVisible,
         setAlertVisible,
         handleGetGastos,

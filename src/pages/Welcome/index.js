@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontFamily: "Inter_700Bold",
+    fontFamily: "Poppins_700Bold",
     fontSize: 24,
     textAlign: "left",
     color: "white",
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     color: "white",
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Poppins_400Regular",
     marginTop: 10,
   },
   button: {
@@ -94,6 +94,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 18,
-    fontFamily: "Inter_700Bold",
+    fontFamily: "Poppins_700Bold",
   },
 });

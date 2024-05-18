@@ -9,12 +9,19 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../contexts/auth";
-
+import { useNavigation } from "@react-navigation/native";
 export default function ModalSaldoInit() {
-  const { alertVisible, setAlertVisible, userInfo, handleSaldo } =
+  const navigation = useNavigation();
+  const { alertVisible, setAlertVisible, userInfo, handleSaldo, handleInfo } =
     useContext(AuthContext);
   const [saldo, setSaldo] = useState("");
-  const [sendSaldo, setSendSaldo] = useState(null);
+  const [sendSaldo, setSendSaldo] = useState("");
+
+  useEffect(() => {
+    setSendSaldo({
+      valorInit: saldo,
+    });
+  }, [saldo]);
 
   useEffect(() => {
     const fecthSaldo = () => {
@@ -30,24 +37,22 @@ export default function ModalSaldoInit() {
     fecthSaldo();
   }, [userInfo.usuario[0]?.valorInit]);
 
-  useEffect(() => {
-    if (saldo) {
-      setSendSaldo({
-        valorInit: parseInt((saldo * 100).toString().replace(",", "")),
-      });
-    }
-  }, [saldo]);
-
   const handleSaldoInit = async () => {
     console.log("entrei saldo");
     if (sendSaldo) {
-      await handleSaldo(sendSaldo);
+      try {
+        await handleSaldo(sendSaldo, navigation);
+        await handleInfo(navigation);
+      } catch (error) {
+        console.error("Erro ao lidar com o saldo: ", error);
+      }
     }
   };
 
   if (!alertVisible) {
     return null;
   }
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.subContainer}>
@@ -62,7 +67,7 @@ export default function ModalSaldoInit() {
           style={{
             fontSize: 30,
             color: "#fff",
-            fontFamily: "Inter_700Bold",
+            fontFamily: "Poppins_700Bold",
           }}
         >
           Seja bem vindo!
@@ -71,7 +76,7 @@ export default function ModalSaldoInit() {
           style={{
             fontSize: 15,
             color: "#fff",
-            fontFamily: "Inter_600SemiBold",
+            fontFamily: "Poppins_600SemiBold",
             marginTop: 10,
           }}
         >
@@ -82,8 +87,8 @@ export default function ModalSaldoInit() {
           <TextInput
             style={styles.textSaldo}
             placeholder="Digite seu saldo"
-            keyboardType="number-pad"
-            onChangeText={(text) => setSaldo(text)}
+            keyboardType="decimal-pad"
+            onChangeText={(text) => setSaldo(parseInt(text.replace(",", "")))}
           />
         </View>
         <TouchableOpacity
@@ -101,7 +106,7 @@ export default function ModalSaldoInit() {
             style={{
               fontSize: 15,
               color: "#36B44C",
-              fontFamily: "Inter_600SemiBold",
+              fontFamily: "Poppins_600SemiBold",
             }}
           >
             Adicionar saldo
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textSaldo: {
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Poppins_600SemiBold",
     fontSize: 20,
     color: "white",
   },
