@@ -7,7 +7,7 @@ import getEnvVars from "../../environment";
 function AuthProvider({ children }) {
   const { BASE_API } = getEnvVars();
   const [userInfo, setUserInfo] = useState({});
-  const [gastos, setGastos] = useState([]);
+  const [gastos, setGastos] = useState({});
   const [ganhos, setGanhos] = useState([]);
   // Adiciona um estado para armazenar os gastos [1
   const [token, setToken] = useState(null);
@@ -169,7 +169,6 @@ function AuthProvider({ children }) {
       } else {
         if (res.status === 401) {
           console.log("Token expirado, faça login novamente");
-          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
           navigation.replace("SignIn");
         }
         console.log("Erro ao encontrar gastos");
@@ -178,6 +177,48 @@ function AuthProvider({ children }) {
     } catch (err) {
       console.log("Erro ao adicionar gasto:", err);
       return null;
+    }
+  };
+
+  // useEffect(() => {
+  //   async function fetchGastos() {
+  //     try {
+  //       const data = await handleGetGastos(navigation);
+  //       setGastos(data);
+  //     } catch (err) {
+  //       console.log("Erro ao buscar gastos", err);
+  //     }
+  //   }
+  //   fetchGastos();
+  // }, [token, navigation]);
+
+  const handleDeleteGasto = async (id, navigation) => {
+    console.log("meu id ", id);
+    try {
+      const res = await fetch(`${baseApi}/gasto`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(id),
+      });
+
+      if (res.ok) {
+        console.log("Gasto deletado com sucesso!");
+        return true;
+      } else {
+        if (res.status === 401) {
+          console.log("Token expirado, faça login novamente");
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+          navigation.replace("SignIn");
+        }
+        console.log("Erro ao deletar gasto");
+        return false;
+      }
+    } catch (err) {
+      console.log("Erro ao deletar gasto:", err);
+      return false;
     }
   };
 
@@ -297,6 +338,7 @@ function AuthProvider({ children }) {
         handlePostGanhos,
         handleGetGanhos,
         handleSaldo,
+        handleDeleteGasto,
       }}
     >
       {children}

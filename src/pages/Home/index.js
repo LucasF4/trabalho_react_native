@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
 import ModalSaldoInit from "./ModalSaldoInit";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Home({ route }) {
   const { handleInfo } = useContext(AuthContext);
@@ -43,7 +44,7 @@ export default function Home({ route }) {
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     try {
-      await handleInfo(navigation);
+      fetchHandleInfo();
       setRefreshing(false);
     } catch (error) {
       console.error("Erro ao atualizar a tela:", error);
@@ -70,9 +71,12 @@ export default function Home({ route }) {
     }
   };
 
-  useEffect(() => {
-    fetchHandleInfo();
-  }, [tokenSalvo, refreshing]); // Adicione tokenSalvo como uma dependência do useEffect
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchHandleInfo();
+    }, [tokenSalvo, refreshing])
+  );
+  // Adicione tokenSalvo como uma dependência do useEffect
 
   useEffect(() => {
     console.log(userInfo);

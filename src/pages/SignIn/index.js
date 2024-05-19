@@ -14,6 +14,10 @@ import { ScrollView } from "react-native";
 import { AuthContext } from "../../contexts/auth";
 import { useNavigation } from "@react-navigation/native";
 import TextDadosIncorretos from "./TextDadosIncorretos";
+/**
+ * Represents the sign-in page component.
+ * @returns {JSX.Element} The sign-in page component.
+ */
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
