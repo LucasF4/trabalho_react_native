@@ -6,6 +6,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import { styles } from "../Home/styleReleases";
 import { useNavigation } from "@react-navigation/native";
+import { RealeasesGanhos } from "./ReleasesGanhos";
 
 export default function Ganhos() {
   const navigation = useNavigation();
@@ -92,7 +93,7 @@ export default function Ganhos() {
           background={`${"#36B44C"}`}
         />
 
-        {/* Renomeie este componente se ele for genérico e não apenas para gastos */}
+        <RealeasesGanhos />
       </View>
     </ScrollView>
   );

@@ -222,6 +222,36 @@ function AuthProvider({ children }) {
     }
   };
 
+  const handleDeleteGanhos = async (id, navigation) => {
+    console.log("Meu id ganho", id);
+    try {
+      const res = await fetch(`${baseApi}/ganhos`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(id),
+      });
+
+      if (res.ok) {
+        console.log("Ganho deletado com sucesso!");
+        return true;
+      } else {
+        if (res.status === 401) {
+          console.log("Token expirado, faça login novamente");
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
+          navigation.replace("SignIn");
+        }
+        console.log("Erro ao deletar ganho");
+        return false;
+      }
+    } catch (err) {
+      console.log("Erro ao deletar ganho:", err);
+      return false;
+    }
+  };
+
   const handlePostGanhos = async (ganhos, navigation) => {
     try {
       const res = await fetch(`${baseApi}/ganhos`, {
@@ -265,7 +295,7 @@ function AuthProvider({ children }) {
       });
       if (res.ok) {
         const data = await res.json();
-        console.log("Ganhos encontrados com sucesso!");
+        console.log("Ganhos encontrados com sucesso!", data);
 
         return data;
       } else {
@@ -333,6 +363,7 @@ function AuthProvider({ children }) {
         alertVisible,
         setAlertVisible,
         handleGetGastos,
+        handleDeleteGanhos,
         userInfo,
         token,
         handlePostGanhos,

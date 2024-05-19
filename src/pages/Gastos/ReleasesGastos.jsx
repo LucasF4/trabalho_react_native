@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { AuthContext } from "../../contexts/auth";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Swipeout from "react-native-swipeout";
@@ -30,7 +30,7 @@ export function RealeasesGastos() {
   const fetchGastos = async () => {
     try {
       const gastos = await handleGetGastos(navigation);
-      setReleasesGastos(Object.values(gastos).flat());
+      setReleasesGastos(Object.values(gastos.gastos).flat());
       await handleInfo(navigation);
     } catch (err) {
       console.log("Erro ao buscar gastos");
@@ -42,13 +42,8 @@ export function RealeasesGastos() {
       fetchGastos();
     }, [])
   );
-
   useEffect(() => {
-    if (releasesGastos.length > 0) {
-      setIdGasto({
-        idgasto: releasesGastos[0].idgasto,
-      });
-    }
+    console.log("releasesGastos", releasesGastos);
   }, [releasesGastos]);
 
   const swipeoutBtns = [
@@ -67,6 +62,7 @@ export function RealeasesGastos() {
         </View>
       ),
       onPress: () => {
+        console.log("idGasto", idGasto);
         setIsSwipeoutOpen(true);
         setModalVisible(true);
       },
@@ -80,7 +76,12 @@ export function RealeasesGastos() {
           style={{
             borderRadius: 10,
           }}
-          key={index}
+          key={gasto.idgasto}
+          onOpen={() => {
+            setIdGasto({
+              idgasto: gasto.idgasto,
+            });
+          }}
           right={swipeoutBtns}
           autoClose={!isSwipeoutOpen}
         >
