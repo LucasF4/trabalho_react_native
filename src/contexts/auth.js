@@ -256,7 +256,7 @@ function AuthProvider({ children }) {
 
   const handleGetGanhos = async (navigation) => {
     try {
-      const res = await fetch(`${baseApi}/gasto`, {
+      const res = await fetch(`${baseApi}/ganhos`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
