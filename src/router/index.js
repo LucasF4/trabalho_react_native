@@ -10,6 +10,7 @@ import Gastos from "../pages/Gastos";
 import Ganhos from "../pages/Ganhos";
 import { StyleSheet, View } from "react-native";
 import ModalScreen from "../pages/ModalScreen";
+import Conta from "../pages/Conta";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -115,7 +116,7 @@ function HomeTabs() {
       />
       <Tab.Screen
         name="Conta"
-        component={Ganhos}
+        component={Conta}
         options={{
           headerShown: false,
           tabBarLabel: "Conta",
@@ -170,8 +171,8 @@ export default function Routes() {
 
 const styles = StyleSheet.create({
   containerIconModal: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     backgroundColor: "#36B44C",
     borderRadius: 25,
     justifyContent: "center",

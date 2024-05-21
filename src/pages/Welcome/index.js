@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
 
     paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   title: {
     fontFamily: "Poppins_700Bold",

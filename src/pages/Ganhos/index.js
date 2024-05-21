@@ -80,7 +80,7 @@ export default function Ganhos() {
             marginBottom: 10,
           }}
         >
-          Visão Geral Ganhos
+          Ganhos
         </Text>
         <CardOverview
           nome="Valor inicial"

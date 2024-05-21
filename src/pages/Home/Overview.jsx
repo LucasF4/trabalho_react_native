@@ -84,21 +84,13 @@ export default function Overview(props) {
             >
               receitas
             </Text>
-            {loading ? (
-              <Animatable.Text
-                style={{
-                  backgroundColor: "#f0f0f0",
-                  height: 20,
-                  fontFamily: "Poppins_600SemiBold",
-                  fontSize: 18,
-                  width: 100,
-                  borderRadius: 2,
-                  color: "#3C5839",
-                }}
-                animation="pulse"
-                iterationCount="infinite"
-              ></Animatable.Text>
-            ) : (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 5,
+              }}
+            >
               <Text
                 style={{
                   fontFamily: "Poppins_600SemiBold",
@@ -106,9 +98,36 @@ export default function Overview(props) {
                   color: "#3C5839",
                 }}
               >
-                R$ {ganhoTotal}
+                R$
               </Text>
-            )}
+              {loading ? (
+                <Animatable.Text
+                  style={{
+                    height: 20,
+                    fontFamily: "Poppins_600SemiBold",
+                    fontSize: 18,
+                    width: 100,
+                    borderRadius: 2,
+                    color: "#3C5839",
+                    marginTop: -10,
+                  }}
+                  animation="fadeIn"
+                  iterationCount="infinite"
+                >
+                  ...
+                </Animatable.Text>
+              ) : (
+                <Text
+                  style={{
+                    fontFamily: "Poppins_600SemiBold",
+                    fontSize: 18,
+                    color: "#3C5839",
+                  }}
+                >
+                  {ganhoTotal}
+                </Text>
+              )}
+            </View>
           </View>
         </View>
         <View style={styles.containerAddGasto}>
@@ -159,16 +178,18 @@ export const styles = StyleSheet.create({
   contentOverview: {
     flexDirection: "row",
     gap: 5,
-    marginTop: 5,
+    marginTop: 20,
   },
   titleOverview: {
     fontFamily: "Poppins_600SemiBold",
-    fontSize: 18,
-    color: "black",
+    fontSize: 20,
+    color: "#36B44C",
     paddingHorizontal: 10,
+    textTransform: "uppercase",
   },
   containerAddGanho: {
     width: "50%",
+
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
@@ -188,6 +209,7 @@ export const styles = StyleSheet.create({
   containerAddGasto: {
     width: "50%",
     flexDirection: "row",
+
     gap: 10,
     backgroundColor: "white",
     paddingVertical: 10,

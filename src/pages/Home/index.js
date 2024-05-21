@@ -32,6 +32,7 @@ export default function Home({ route }) {
       let newData;
       newData = await handleInfo(navigation);
       setUserInfo(newData);
+      await handleInfo(navigation);
       setLoading(false);
     } catch (error) {
       setLoading(true);
@@ -94,21 +95,21 @@ export default function Home({ route }) {
     console.log("Username", username);
   }, [username]);
 
-  const Logout = async () => {
-    try {
-      await AsyncStorage.removeItem("token");
-      navigation.replace("SignIn");
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "SignIn" }],
-      });
-      if (tokenStorage) {
-        setTokenStorage(null);
-      }
-    } catch (e) {
-      console.error("Erro ao fazer o logout", e);
-    }
-  };
+  // const Logout = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem("token");
+  //     navigation.replace("SignIn");
+  //     navigation.reset({
+  //       index: 0,
+  //       routes: [{ name: "SignIn" }],
+  //     });
+  //     if (tokenStorage) {
+  //       setTokenStorage(null);
+  //     }
+  //   } catch (e) {
+  //     console.error("Erro ao fazer o logout", e);
+  //   }
+  // };
   return loading ? (
     <Animatable.View
       animation="rotate"
@@ -129,9 +130,9 @@ export default function Home({ route }) {
         }
       >
         <Header username={username} />
-        <TouchableOpacity onPress={Logout}>
+        {/* <TouchableOpacity onPress={Logout}>
           <Text>Logout</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Overview />
         <Releases />
       </ScrollView>
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#f4f4f4",
     position: "relative",
   },
   containerAdd: {

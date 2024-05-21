@@ -14,8 +14,14 @@ function AuthProvider({ children }) {
   const baseApi = BASE_API;
   const navigation = useNavigation();
   const [alertVisible, setAlertVisible] = useState(false);
+  const [modalSaldoInit, setModalSaldoInit] = useState(false);
   const [modalDadosIncorrectos, setModalDadosIncorrectos] = useState(false);
   const [modalGanhoAdicionado, setModalGanhoAdicionado] = useState(false);
+  const [tokenSalvo, setTokenSalvo] = useState(null);
+
+  useEffect(() => {
+    setTokenSalvo(token);
+  }, [token]);
   //* Função para armazenar o token no AsyncStorage
   const storeToken = async (tokenSalvo) => {
     try {
@@ -135,7 +141,8 @@ function AuthProvider({ children }) {
       if (res.ok) {
         const data = await res.json();
         console.log("Gasto adicionado com sucesso!");
-        setAlertVisible(true); // Atualize o estado para true quando um gasto for adicionado com sucesso
+        setAlertVisible(true);
+        // Atualize o estado para true quando um gasto for adicionado com sucesso
         return data;
       } else {
         if (res.status === 401) {
@@ -252,6 +259,7 @@ function AuthProvider({ children }) {
     }
   };
 
+  //* Função para adicionar ganhos
   const handlePostGanhos = async (ganhos, navigation) => {
     try {
       const res = await fetch(`${baseApi}/ganhos`, {
@@ -264,9 +272,8 @@ function AuthProvider({ children }) {
       });
       if (res.ok) {
         const data = await res.json();
-        console.log("Ganho adicionado com sucesso!");
-        setAlertVisible(true); // Atualize o estado para true quando um gasto for adicionado com sucesso
-
+        console.log("Ganho adicionado com sucesso!"); // Atualize o estado para true quando um gasto for adicionado com sucesso
+        setAlertVisible(true);
         return data;
       } else {
         if (res.status === 401) {
@@ -331,7 +338,7 @@ function AuthProvider({ children }) {
       if (res.ok) {
         const data = await res.json();
         console.log("Saldo adicionado com sucesso!");
-        setAlertVisible(false);
+        setModalSaldoInit(false);
         return data;
       } else {
         if (res.status === 401) {
@@ -370,6 +377,9 @@ function AuthProvider({ children }) {
         handleGetGanhos,
         handleSaldo,
         handleDeleteGasto,
+        tokenSalvo,
+        setModalSaldoInit,
+        modalSaldoInit,
       }}
     >
       {children}

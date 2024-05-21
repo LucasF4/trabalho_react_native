@@ -139,6 +139,9 @@ export default function Register() {
       <ScrollView style={styles.scrollView}>
         <Animatable.View animation="fadeInLeft" style={styles.contentTitle}>
           <Text style={styles.title}>Cadastro</Text>
+          <Text style={styles.subtitle}>
+            Crie sua conta e em seguida faça login.
+          </Text>
         </Animatable.View>
         <Animatable.View
           delay={600}
@@ -331,7 +334,7 @@ export default function Register() {
                 navigation.navigate("SignIn");
               }}
             >
-              <Text style={styles.buttonText}>Faça o login</Text>
+              <Text style={styles.buttonTextCadastro}>Faça o login</Text>
             </TouchableOpacity>
           </View>
         </Animatable.View>

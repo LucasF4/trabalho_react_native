@@ -85,7 +85,7 @@ export function RealeasesGanhos() {
                 <Icon name="attach-money" size={20} color="#3C5839" />
               </View>
               <View>
-                <Text style={styles.textNameRelease}>{ganho.nameProd}</Text>
+                <Text style={styles.textNameRelease}>{ganho.nomeProd}</Text>
                 <Text style={styles.textTagRelease}>
                   {ganho.tipo === "ganho" ? "Ganho" : "Gasto"}
                 </Text>
@@ -113,7 +113,7 @@ export function RealeasesGanhos() {
                   fontSize: 10,
                 }}
               >
-                {new Date(ganho.createdAt).toLocaleDateString("pt-BR")}
+                {new Date(ganho.createAt).toLocaleDateString("pt-BR")}
               </Text>
             </View>
           </View>

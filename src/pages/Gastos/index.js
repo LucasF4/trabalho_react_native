@@ -86,7 +86,7 @@ export default function Gastos() {
             marginBottom: 10,
           }}
         >
-          Visão Geral Gastos
+          Gastos
         </Text>
         <CardOverview
           nome="Valor inicial"

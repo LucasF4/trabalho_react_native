@@ -26,20 +26,26 @@ export function CardOverview(props) {
     >
       <View>
         <Text style={styles.textWallet}>{nome}</Text>
-        {loading ? (
-          <Animatable.Text
-            style={{
-              backgroundColor: "#f4f4f4",
-              height: 25,
-              width: 100,
-              borderRadius: 2,
-            }}
-            animation="pulse"
-            iterationCount="infinite"
-          ></Animatable.Text>
-        ) : (
-          <Text style={styles.textSaldo}>R$ {valorAt}</Text>
-        )}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 5,
+          }}
+        >
+          <Text style={styles.textCifrao}>R$</Text>
+          {loading ? (
+            <Animatable.Text
+              style={styles.textSaldo}
+              animation="fadeIn"
+              iterationCount="infinite"
+            >
+              ...
+            </Animatable.Text>
+          ) : (
+            <Text style={styles.textSaldo}>{valorAt}</Text>
+          )}
+        </View>
       </View>
       <Icon name="account-balance-wallet" size={50} color="white" />
     </View>
@@ -49,12 +55,18 @@ export function CardOverview(props) {
 const styles = StyleSheet.create({
   textWallet: {
     fontFamily: "Poppins_400Regular",
-    fontSize: 15,
+    fontSize: 12,
     color: "#edebeb",
+    textTransform: "uppercase",
   },
   textSaldo: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Poppins_700Bold",
     fontSize: 25,
+    color: "white",
+  },
+  textCifrao: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 20,
     color: "white",
   },
 });

@@ -4,6 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+
     alignItems: "center",
     justifyContent: "center",
 
@@ -12,37 +13,37 @@ export const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: "#fff",
   },
   containerForms: {
     flex: 1,
     width: "100%",
 
     alignItems: "center",
-    justifyContent: "center",
+
     gap: 5,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingHorizontal: 30,
-    paddingVertical: 20,
+    paddingHorizontal: 20,
+    marginTop: 30,
   },
   contentTitle: {
     width: "100%",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginTop: 20,
-    paddingHorizontal: 30,
+    alignItems: "flex-start",
+    paddingHorizontal: 20,
   },
   title: {
     width: "100%",
-    fontSize: 25,
-    fontFamily: "Poppins_600SemiBold",
-    color: "white",
+    fontSize: 30,
+    fontFamily: "Poppins_700Bold",
+    color: "#36B44C",
+    marginTop: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    color: "#000",
     marginBottom: 20,
-    backgroundColor: "#36B44C",
-    padding: 10,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
     textAlign: "center",
   },
   textInput: {
@@ -52,8 +53,6 @@ export const styles = StyleSheet.create({
     fontFamily: "Poppins_500Medium",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#36B44C",
     opacity: 0.8,
     width: "100%",
     borderRadius: 5,
@@ -65,38 +64,47 @@ export const styles = StyleSheet.create({
   },
 
   buttonSignIn: {
-    backgroundColor: "#36B44C",
     width: "100%",
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    alignSelf: "center",
-    marginTop: 20,
-  },
-  button: {
-    backgroundColor: "#344C",
-    width: "100%",
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
 
+    backgroundColor: "#36B44C",
+
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 25,
     alignSelf: "center",
-    borderRadius: 8,
   },
   buttonText: {
     color: "#fff",
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
   },
-  cntBtnCadastro: {
+  button: {
     width: "100%",
-    marginTop: 18,
+    borderWidth: 1,
+    borderColor: "red",
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
-    gap: 10,
+    marginTop: 20,
+
+    alignSelf: "center",
+    borderRadius: 25,
+  },
+  buttonTextCadastro: {
+    color: "red",
+    fontSize: 18,
+    fontFamily: "Poppins_500Medium",
+  },
+
+  cntBtnCadastro: {
+    width: "100%",
+    marginTop: 10,
+    paddingBottom: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
   textBtnCadastro: {
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Poppins_500Medium",
   },
 });

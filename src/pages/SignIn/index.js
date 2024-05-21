@@ -64,7 +64,10 @@ export default function SignIn() {
         contentContainerStyle={{ flexGrow: 1, width: "100%" }}
       >
         <Animatable.View animation="fadeInLeft" style={styles.contentTitle}>
-          <Text style={styles.title}>Bem vindo(a)</Text>
+          <Text style={styles.title}>Olá,</Text>
+          <Text style={styles.subtitle}>
+            insira suas credenciais ou cadastre-se.
+          </Text>
         </Animatable.View>
         <Animatable.View
           delay={600}
@@ -77,18 +80,20 @@ export default function SignIn() {
             style={{
               borderWidth: 1,
               borderColor: `${
-                isEmailValid && alertaDadosIncorrentos === false
+                email == ""
+                  ? "#000"
+                  : isEmailValid && alertaDadosIncorrentos === false
                   ? "#36B44C"
                   : "red"
               }`,
               opacity: 0.8,
               width: "100%",
-              borderRadius: 5,
+              borderRadius: 10,
               marginBottom: 15,
               padding: 12,
               color: "black",
               fontFamily: "Poppins_400Regular",
-              fontSize: 16,
+              fontSize: 14,
             }}
             placeholder="Digite seu email..."
             onChangeText={(text) => {
@@ -107,18 +112,20 @@ export default function SignIn() {
             style={{
               borderWidth: 1,
               borderColor: `${
-                isPasswordValid && alertaDadosIncorrentos === false
+                password == ""
+                  ? "#000"
+                  : isPasswordValid && alertaDadosIncorrentos === false
                   ? "#36B44C"
                   : "red"
               }`,
               opacity: 0.8,
               width: "100%",
-              borderRadius: 5,
+              borderRadius: 10,
               marginBottom: 15,
               padding: 12,
               color: "black",
               fontFamily: "Poppins_400Regular",
-              fontSize: 16,
+              fontSize: 14,
             }}
             placeholder="Digite sua senha..."
             onChangeText={(text) => {
@@ -142,7 +149,7 @@ export default function SignIn() {
                 navigation.navigate("Register");
               }}
             >
-              <Text style={styles.buttonText}>Cadastre-se</Text>
+              <Text style={styles.buttonTextCadastro}>Cadastrar-se</Text>
             </TouchableOpacity>
           </View>
         </Animatable.View>
