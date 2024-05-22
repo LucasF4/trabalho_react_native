@@ -18,6 +18,8 @@ function AuthProvider({ children }) {
   const [modalDadosIncorrectos, setModalDadosIncorrectos] = useState(false);
   const [modalGanhoAdicionado, setModalGanhoAdicionado] = useState(false);
   const [tokenSalvo, setTokenSalvo] = useState(null);
+  const [alertAddGanho, setAlertAddGanho] = useState(false);
+  const [alertErroAdd, setAlertErroAdd] = useState(false);
 
   useEffect(() => {
     setTokenSalvo(token);
@@ -145,6 +147,8 @@ function AuthProvider({ children }) {
         // Atualize o estado para true quando um gasto for adicionado com sucesso
         return data;
       } else {
+        setAlertErroAdd(true);
+
         if (res.status === 401) {
           console.log("Token expirado, faça login novamente");
           // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
@@ -154,6 +158,8 @@ function AuthProvider({ children }) {
         return null;
       }
     } catch (err) {
+      setAlertErroAdd(true);
+
       console.log("Erro ao adicionar gasto:", err);
       return null;
     }
@@ -273,9 +279,10 @@ function AuthProvider({ children }) {
       if (res.ok) {
         const data = await res.json();
         console.log("Ganho adicionado com sucesso!"); // Atualize o estado para true quando um gasto for adicionado com sucesso
-        setAlertVisible(true);
+        setAlertAddGanho(true);
         return data;
       } else {
+        setAlertErroAdd(true);
         if (res.status === 401) {
           console.log("Token expirado, faça login novamente");
           // Aqui você pode redirecionar o usuário para a página de login ou fazer outra coisa
@@ -286,6 +293,8 @@ function AuthProvider({ children }) {
         return null;
       }
     } catch (err) {
+      setAlertErroAdd(true);
+
       console.log("Erro ao adicionar gasto:", err);
       return null;
     }
@@ -380,6 +389,10 @@ function AuthProvider({ children }) {
         tokenSalvo,
         setModalSaldoInit,
         modalSaldoInit,
+        setAlertAddGanho,
+        alertAddGanho,
+        setAlertErroAdd,
+        alertErroAdd,
       }}
     >
       {children}

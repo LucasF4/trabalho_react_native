@@ -144,15 +144,50 @@ export default function Overview(props) {
             >
               gastos
             </Text>
-            <Text
+            <View
               style={{
-                fontFamily: "Poppins_600SemiBold",
-                fontSize: 18,
-                color: "#610808",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 5,
               }}
             >
-              R$ {gastoTotal}
-            </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins_600SemiBold",
+                  fontSize: 18,
+                  color: "#610808",
+                }}
+              >
+                R$
+              </Text>
+              {loading ? (
+                <Animatable.Text
+                  style={{
+                    height: 20,
+                    fontFamily: "Poppins_600SemiBold",
+                    fontSize: 18,
+                    width: 100,
+                    borderRadius: 2,
+                    color: "#610808",
+                    marginTop: -10,
+                  }}
+                  animation="fadeIn"
+                  iterationCount="infinite"
+                >
+                  ...
+                </Animatable.Text>
+              ) : (
+                <Text
+                  style={{
+                    fontFamily: "Poppins_600SemiBold",
+                    fontSize: 18,
+                    color: "#610808",
+                  }}
+                >
+                  {gastoTotal}
+                </Text>
+              )}
+            </View>
           </View>
         </View>
       </View>

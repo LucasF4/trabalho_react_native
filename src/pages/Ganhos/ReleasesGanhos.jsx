@@ -117,115 +117,115 @@ export function RealeasesGanhos() {
               </Text>
             </View>
           </View>
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                setModalVisible(!modalVisible);
-                setIsSwipeoutOpen(false);
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <View
-                  style={{
-                    backgroundColor: "white",
-                    padding: 20,
-                    borderRadius: 10,
-                    gap: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "Poppins_600SemiBold",
-                      fontSize: 15,
-                      width: 250,
-                      textAlign: "center",
-                      color: "#3C5839",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Tem certeza que deseja excluir este ganho?
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: "Poppins_400Regular",
-                      fontSize: 15,
-                      color: "#3C5839",
-                      textAlign: "center",
-                    }}
-                  >
-                    Esta ação é irreversível!
-                  </Text>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#C7FFC2",
-                      padding: 10,
-                      borderRadius: 10,
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    onPress={() => {
-                      async function fetchDeleteGanho() {
-                        try {
-                          console.log("idGanho", idGanho);
-                          await handleDeleteGanhos(idGanho, navigation);
-                          fetchGanhos();
-                        } catch (err) {
-                          console.log("Erro ao deletar ganho");
-                        }
-                      }
-                      fetchDeleteGanho();
-                      setModalVisible(false);
-                      setIsSwipeoutOpen(false);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: "#3C5839",
-                        fontFamily: "Poppins_600SemiBold",
-                        fontSize: 15,
-                      }}
-                    >
-                      Sim
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#FFC7C7",
-                      padding: 10,
-                      borderRadius: 10,
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    onPress={() => {
-                      setModalVisible(false);
-                      setIsSwipeoutOpen(false);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: "#610808",
-                        fontFamily: "Poppins_600SemiBold",
-                        fontSize: 15,
-                      }}
-                    >
-                      Não
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Modal>
-          </View>
         </Swipeout>
       ))}
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+            setIsSwipeoutOpen(false);
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                padding: 20,
+                borderRadius: 10,
+                gap: 10,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Poppins_600SemiBold",
+                  fontSize: 15,
+                  width: 250,
+                  textAlign: "center",
+                  color: "#3C5839",
+                  textTransform: "uppercase",
+                }}
+              >
+                Tem certeza que deseja excluir este ganho?
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Poppins_400Regular",
+                  fontSize: 15,
+                  color: "#3C5839",
+                  textAlign: "center",
+                }}
+              >
+                Esta ação é irreversível!
+              </Text>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#C7FFC2",
+                  padding: 10,
+                  borderRadius: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onPress={() => {
+                  async function fetchDeleteGanho() {
+                    try {
+                      console.log("idGanho", idGanho);
+                      await handleDeleteGanhos(idGanho, navigation);
+                      fetchGanhos();
+                    } catch (err) {
+                      console.log("Erro ao deletar ganho");
+                    }
+                  }
+                  fetchDeleteGanho();
+                  setModalVisible(false);
+                  setIsSwipeoutOpen(false);
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#3C5839",
+                    fontFamily: "Poppins_600SemiBold",
+                    fontSize: 15,
+                  }}
+                >
+                  Sim
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#FFC7C7",
+                  padding: 10,
+                  borderRadius: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onPress={() => {
+                  setModalVisible(false);
+                  setIsSwipeoutOpen(false);
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#610808",
+                    fontFamily: "Poppins_600SemiBold",
+                    fontSize: 15,
+                  }}
+                >
+                  Não
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </View>
     </View>
   );
 }

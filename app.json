@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/logoSplash.png",
-      "resizeMode": "cover",
+      "resizeMode": "contain",
       "backgroundColor": "#36B44C"
     },
     "assetBundlePatterns": ["**/*"],

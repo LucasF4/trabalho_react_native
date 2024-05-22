@@ -6,6 +6,7 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import getEnvVars from "../../../environment";
+import { ModalUserCadastrado } from "./ModalUserCadastrado";
 
 /**
  * Represents the Register page component.
@@ -29,6 +30,7 @@ export default function Register() {
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
   const [alertaDadosIncorrentos, setAlertaDadosIncorrentos] = useState(false);
   const [alertEmail, setAlertEmail] = useState(false);
+  const [modalUserCadastrado, setModalUserCadastrado] = useState(false);
   /**
    * Validates the name.
    * @param {string} name - The name to validate.
@@ -110,7 +112,10 @@ export default function Register() {
           // Handle successful responses
           const data = await response.json();
           console.log("Cadastro realizado com sucesso", data);
-          navigation.navigate("SignIn");
+          setModalUserCadastrado(true);
+          setTimeout(() => {
+            navigation.navigate("SignIn");
+          }, 2000);
         } else {
           // Handle unsuccessful responses
           const errorData = await response.json();
@@ -338,6 +343,10 @@ export default function Register() {
             </TouchableOpacity>
           </View>
         </Animatable.View>
+        <ModalUserCadastrado
+          modalUserCadastro={modalUserCadastrado}
+          setModalUserCadastro={setModalUserCadastrado}
+        />
       </ScrollView>
     </View>
   );

@@ -11,11 +11,18 @@ import { Picker } from "@react-native-picker/picker";
 import { AuthContext } from "../../contexts/auth";
 import { AlertGastoAdd } from "./alertGastoAdd.jsx";
 import { useNavigation } from "@react-navigation/native";
+import { AlertGanhoAdd } from "./AlertGanhoAdd.jsx";
+import { AlertErroAdd } from "./AlertErroAdd.jsx";
 
 export default function ModalScreen() {
   //************************************** */
-  const { handlePostGastos, handleGetGastos, handleInfo, handlePostGanhos } =
-    useContext(AuthContext);
+  const {
+    handlePostGastos,
+    handleGetGastos,
+    handleInfo,
+    handlePostGanhos,
+    setAlertErroAdd,
+  } = useContext(AuthContext);
   const [gastos, setGastos] = useState(null);
   const [ganhos, setGanhos] = useState(null);
   const [selectedValue, setSelectedValue] = useState("gasto");
@@ -44,24 +51,25 @@ export default function ModalScreen() {
 
   const handleAddLancamento = async () => {
     if (
-      (nomeLancamento === "" && valorLancamento === "") ||
-      nomeLancamento.length < 3 ||
+      nomeLancamento === "" ||
+      valorLancamento === "" ||
       valorLancamento === 0
     ) {
       console.log("Preencha os campos");
+      setAlertErroAdd(true);
       return;
+    } else {
+      if (selectedValue == "gasto") {
+        console.log("entrei gasto");
+        await handlePostGastos(gastos, navigation);
+      }
+      if (selectedValue == "ganho") {
+        console.log("entrei ganho");
+        await handlePostGanhos(ganhos, navigation);
+      }
+      await handleGetGastos(navigation); // Atualiza os lançamentos após adicionar um novo
+      await handleInfo(navigation);
     }
-
-    if (selectedValue == "gasto") {
-      console.log("entrei gasto");
-      await handlePostGastos(gastos, navigation);
-    }
-    if (selectedValue == "ganho") {
-      console.log("entrei ganho");
-      await handlePostGanhos(ganhos, navigation);
-    }
-    await handleGetGastos(navigation); // Atualiza os lançamentos após adicionar um novo
-    await handleInfo(navigation);
   };
   return (
     <ScrollView>
@@ -94,6 +102,7 @@ export default function ModalScreen() {
         <View>
           <Text style={styles.textModal}>Valor do lançamento</Text>
           <TextInput
+            value={valorLancamento}
             onChangeText={(text) => {
               setValorLancamento(text);
             }}
@@ -112,6 +121,8 @@ export default function ModalScreen() {
         </View>
       </View>
       <AlertGastoAdd />
+      <AlertGanhoAdd />
+      <AlertErroAdd />
     </ScrollView>
   );
 }
@@ -119,7 +130,6 @@ export default function ModalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     width: "100%",
     height: "100%",
     padding: 20,
