@@ -7,6 +7,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../Home/styleReleases";
 import { useNavigation } from "@react-navigation/native";
 import { RealeasesGastos } from "./ReleasesGastos";
+import { ProgressCircle } from "react-native-svg-charts";
+import { Circle, G, Svg, Text as SvgText } from "react-native-svg";
 
 /**
  * Renders a component for displaying and deleting expenses.
@@ -14,6 +16,41 @@ import { RealeasesGastos } from "./ReleasesGastos";
  * @param {Object} gasto - The expense object.
  * @returns {JSX.Element} The rendered component.
  */
+
+class ProgressCircleExample extends React.PureComponent {
+  render() {
+    const { progress } = this.props; // Recebe a propriedade progress
+    const progressPercentage = `${Math.round(progress * 100)}%`;
+
+    return (
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <Svg height="200" width="200" viewBox="0 0 100 100">
+          <G y="50" x="50">
+            <Circle r="45" stroke="grey" strokeWidth="2" fill="transparent" />
+            <ProgressCircle
+              style={{ height: 200, width: 200 }}
+              progress={progress}
+              progressColor={"#610808"}
+              strokeWidth={2.5}
+              cornerRadius={45}
+              startAngle={-Math.PI * 0.8}
+              endAngle={Math.PI * 0.8}
+            />
+            <SvgText
+              textAnchor="middle"
+              y="6"
+              fontSize="18"
+              fill="black"
+              fontFamily="Poppins_600SemiBold"
+            >
+              {progressPercentage ? progressPercentage : "0%"}
+            </SvgText>
+          </G>
+        </Svg>
+      </View>
+    );
+  }
+}
 
 export default function Gastos() {
   const navigation = useNavigation();
@@ -35,6 +72,8 @@ export default function Gastos() {
       }
     }
   };
+  const progress = gastoTotal.replace(",", ".") / valorInit.replace(",", ".");
+
   // useEffect(() => {
   //   setGastosUser(Object.values(gastos).flat());
   // }, [gastos]);
@@ -88,6 +127,9 @@ export default function Gastos() {
         >
           Gastos
         </Text>
+        <View>
+          <ProgressCircleExample progress={progress} />
+        </View>
         <CardOverview
           nome="Valor inicial"
           valorAt={valorInit}
@@ -98,7 +140,6 @@ export default function Gastos() {
           valorAt={gastoTotal}
           background={`${"#610808"}`}
         />
-
         <RealeasesGastos />
       </View>
     </ScrollView>
