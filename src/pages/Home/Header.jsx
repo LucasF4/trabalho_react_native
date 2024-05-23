@@ -11,12 +11,6 @@ export default function Header(props) {
       <View style={styles.containerHeaderUser}>
         <Username username={username} />
       </View>
-      <View>
-        <Icon name="notifications-none" size={30} color="black" />
-        <View style={styles.containerNumberNotification}>
-          <Text style={styles.numberNotification}>3</Text>
-        </View>
-      </View>
     </View>
   );
 }

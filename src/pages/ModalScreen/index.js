@@ -62,10 +62,14 @@ export default function ModalScreen() {
       if (selectedValue == "gasto") {
         console.log("entrei gasto");
         await handlePostGastos(gastos, navigation);
+        setNomeLancamento("");
+        setValorLancamento("");
       }
       if (selectedValue == "ganho") {
         console.log("entrei ganho");
         await handlePostGanhos(ganhos, navigation);
+        setNomeLancamento("");
+        setValorLancamento("");
       }
       await handleGetGastos(navigation); // Atualiza os lançamentos após adicionar um novo
       await handleInfo(navigation);

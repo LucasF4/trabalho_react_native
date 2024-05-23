@@ -9,7 +9,7 @@ import { TouchableHighlight } from "react-native";
 
 export default function Conta() {
   const { userInfo } = useContext(AuthContext);
-  const [username, setUsername] = useState("Usuário");
+  const [username, setUsername] = useState("UsuÃ¡rio");
   useEffect(() => {
     setUsername(userInfo.usuario[0].name);
   }, [userInfo]);
@@ -27,34 +27,6 @@ export default function Conta() {
             gap: 10,
           }}
         >
-          <TouchableHighlight
-            underlayColor="#d4d4d4"
-            onPress={Logout}
-            style={{
-              flexDirection: "row",
-              gap: 10,
-              paddingHorizontal: 10,
-              paddingVertical: 10,
-              width: "100%",
-              alignItems: "center",
-              backgroundColor: "#FFF",
-              borderRadius: 10,
-            }}
-          >
-            <>
-              <Icon name="edit" size={30} color="#36B44C" />
-              <Text
-                style={{
-                  color: "#000",
-                  fontFamily: "Poppins_500Medium",
-                  fontSize: 16,
-                }}
-              >
-                Editar saldo
-              </Text>
-            </>
-          </TouchableHighlight>
-
           <View
             style={{
               height: 1,
